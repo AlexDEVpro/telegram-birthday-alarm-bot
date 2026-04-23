@@ -1,0 +1,195 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActionCancelled" xml:space="preserve">
+    <value>❌ Действие отменено.</value>
+  </data>
+  <data name="AddbirthdayCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/addbirthday&lt;/pre&gt;затем например&lt;pre&gt;25 мая 2002&lt;/pre&gt;или без года&lt;pre&gt;25 мая&lt;/pre&gt;либо сразу&lt;pre&gt;/addbirthday 1 июня 2000&lt;/pre&gt;или сразу без года&lt;pre&gt;/addbirthday 1 июня&lt;/pre&gt;для добавления своего ДР.</value>
+  </data>
+  <data name="AddBirthdayStep2InvalidDateAppendix" xml:space="preserve">
+    <value>Или используйте команду &lt;code&gt;/cancel&lt;/code&gt; для отмены.</value>
+  </data>
+  <data name="AddBirthdayStep1" xml:space="preserve">
+    <value>Введите дату своего ДР, например &lt;code&gt;25 мая 2002&lt;/code&gt; или без года &lt;code&gt;25 мая&lt;/code&gt;:</value>
+  </data>
+  <data name="AddBirthdaySuccess" xml:space="preserve">
+    <value>✅ Добавлен ДР {0}.</value>
+  </data>
+  <data name="CancelCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/cancel&lt;/pre&gt;для отмены операции добавления ДР.</value>
+  </data>
+  <data name="DuplicatedUserMessage" xml:space="preserve">
+    <value>⚠ Уже добавлено.</value>
+  </data>
+  <data name="ErrorMessageFromIsNull" xml:space="preserve">
+    <value>😲 Ошибка: информация об отправителе команды недоступна.</value>
+  </data>
+  <data name="FormatPrefix" xml:space="preserve">
+    <value>⚠ Формат:</value>
+  </data>
+  <data name="HelpMessageTitle" xml:space="preserve">
+    <value>📚 Команды:</value>
+  </data>
+  <data name="ListCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/list&lt;/pre&gt;для вывода списка всех добавленных дней рождений.</value>
+  </data>
+  <data name="NoActiveActionsToCancel" xml:space="preserve">
+    <value>ℹ️ Нет активных действий для отмены.</value>
+  </data>
+  <data name="RemovebirthdayCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/removebirthday&lt;/pre&gt;для удаления своего ДР.</value>
+  </data>
+  <data name="AddBirthdayOfOtherUserAdminOnly" xml:space="preserve">
+    <value>🚫 Только админ бота может добавлять ДР других пользователей.</value>
+  </data>
+  <data name="RemoveBirthdayOfOtherUserAdminOnly" xml:space="preserve">
+    <value>🚫 Только админ бота может удалять ДР других пользователей.</value>
+  </data>
+  <data name="AddBirthdayByUsernameFormat" xml:space="preserve">
+    <value>&lt;code&gt;/addbirthday @username d MMMM yyyy&lt;/code&gt;.</value>
+  </data>
+  <data name="InvalidDateWarning" xml:space="preserve">
+    <value>⚠ Неверная дата. Введите дату вида &lt;code&gt;25 мая 2002&lt;/code&gt; или без года &lt;code&gt;25 мая&lt;/code&gt;.</value>
+  </data>
+  <data name="RemoveBirthdayByUsernameFormat" xml:space="preserve">
+    <value>&lt;code&gt;/removebirthday @username&lt;/code&gt;.</value>
+  </data>
+  <data name="RemoveBirthdaySuccess" xml:space="preserve">
+    <value>🗑 Удалён ДР {0}.</value>
+  </data>
+  <data name="BirthdayNotFound" xml:space="preserve">
+    <value>⚠ Нет ДР для удаления.</value>
+  </data>
+  <data name="ListEmpty" xml:space="preserve">
+    <value>Пусто.</value>
+  </data>
+  <data name="ListTitle" xml:space="preserve">
+    <value>🎂 Список дней рождений:</value>
+  </data>
+  <data name="ListItemDateFormat" xml:space="preserve">
+    <value>d MMMM</value>
+  </data>
+  <data name="BirthdayCongrats" xml:space="preserve">
+    <value>{0}, с днём рождения! 🎉</value>
+  </data>
+  <data name="LateBirthdayCongratsAppendix" xml:space="preserve">
+    <value>Слоупочно поздравляем! 😅</value>
+  </data>
+</root>
