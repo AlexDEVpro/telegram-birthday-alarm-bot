@@ -13,14 +13,14 @@ namespace TelegramBirthdayAlarmBot.Services
         private readonly ITelegramBotClient _bot;
         private readonly BotTimeProvider _botTimeProvider;
         private readonly StorageService _storage;
-        private readonly BirthdayOptions _options;
+        private readonly BirthdayOptions _birthdayOptions;
 
         public BirthdayService(ITelegramBotClient bot, BotTimeProvider botTimeProvider, StorageService storage, IOptions<BirthdayOptions> options)
         {
             _bot = bot;
             _botTimeProvider = botTimeProvider;
             _storage = storage;
-            _options = options.Value;
+            _birthdayOptions = options.Value;
         }
 
         protected override async Task ExecuteAsync(CancellationToken ct)
@@ -36,7 +36,7 @@ namespace TelegramBirthdayAlarmBot.Services
                     Console.Error.WriteLine(ex);
                 }
 
-                await Task.Delay(TimeSpan.FromMinutes(_options.CheckIntervalMinutes), ct);
+                await Task.Delay(TimeSpan.FromMinutes(_birthdayOptions.CheckIntervalMinutes), ct);
             }
         }
 
@@ -111,10 +111,10 @@ namespace TelegramBirthdayAlarmBot.Services
             var birthdayThisYear = new DateTime(now.Year, bs.Date.Month, bs.Date.Day);
 
             // Too late cutoff.
-            if (birthdayThisYear < now.AddMonths(-_options.LateWindowMonths).Date)
+            if (birthdayThisYear < now.AddMonths(-_birthdayOptions.LateWindowMonths).Date)
                 return SendDecision.SkipTooOld;
 
-            var sendTime = birthdayThisYear.AddHours(_options.SendHour);
+            var sendTime = birthdayThisYear.AddHours(_birthdayOptions.SendHour);
 
             // Today case.
             if (now.Date == birthdayThisYear.Date)

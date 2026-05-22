@@ -16,19 +16,19 @@ namespace TelegramBirthdayAlarmBot.Handlers
         private readonly PendingAddStateService _stateService;
         private readonly UserCultureResolver _userCultureResolver;
         private readonly StorageService _storage;
-        private readonly IOptions<BirthdayOptions> _options;
 
+        private long[] _adminIDs;
         private CultureInfo _culture;
 
-        public AddBirthdayHandler(ITelegramBotClient bot, PendingAddStateService stateService, UserCultureResolver userCultureResolver, StorageService storage, IOptions<BirthdayOptions> options)
+        public AddBirthdayHandler(ITelegramBotClient bot, PendingAddStateService stateService, UserCultureResolver userCultureResolver, StorageService storage, IOptions<TelegramOptions> telegramOptions, IOptions<BirthdayOptions> birthdayOptions)
         {
             _bot = bot;
             _stateService = stateService;
             _userCultureResolver = userCultureResolver;
             _storage = storage;
-            _options = options;
 
-            _culture = new CultureInfo(options.Value.DateCulture);
+            _adminIDs = telegramOptions.Value.AdminIDs;
+            _culture = new CultureInfo(birthdayOptions.Value.DateCulture);
         }
 
         public async Task Handle(AddBirthdayCommand request, CancellationToken cancellationToken)
@@ -65,7 +65,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
             if (input.StartsWith("@"))
             {
                 // Admin section.
-                if (!_options.Value.AdminIDs.Contains(from.Id))
+                if (!_adminIDs.Contains(from.Id))
                 {
                     await _bot.SendMessage(chatId, Resources.BotMessages.AddBirthdayOfOtherUserAdminOnly);
 

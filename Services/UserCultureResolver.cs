@@ -8,9 +8,9 @@ internal class UserCultureResolver
 {
     private readonly string _defaultCulture;
 
-    public UserCultureResolver(IOptions<BirthdayOptions> options)
+    public UserCultureResolver(IOptions<BirthdayOptions> birthdayOptions)
     {
-        _defaultCulture = options.Value.DateCulture;
+        _defaultCulture = birthdayOptions.Value.DateCulture;
     }
 
     public CultureInfo Resolve(string? telegramLangCode)

@@ -12,13 +12,15 @@ namespace TelegramBirthdayAlarmBot.Handlers
     {
         private readonly ITelegramBotClient _bot;
         private readonly StorageService _storage;
-        private readonly IOptions<BirthdayOptions> _options;
 
-        public RemoveBirthdayHandler(ITelegramBotClient bot, StorageService storage, IOptions<BirthdayOptions> options)
+        private long[] _adminIDs;
+
+        public RemoveBirthdayHandler(ITelegramBotClient bot, StorageService storage, IOptions<TelegramOptions> telegramOptions)
         {
             _bot = bot;
             _storage = storage;
-            _options = options;
+
+            _adminIDs = telegramOptions.Value.AdminIDs;
         }
 
         public async Task Handle(RemoveBirthdayCommand request, CancellationToken cancellationToken)
@@ -43,7 +45,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 if (input.StartsWith("@"))
                 {
                     // Admin section.
-                    if (!_options.Value.AdminIDs.Contains(from.Id))
+                    if (!_adminIDs.Contains(from.Id))
                     {
                         await _bot.SendMessage(chatId, Resources.BotMessages.RemoveBirthdayOfOtherUserAdminOnly);
                         

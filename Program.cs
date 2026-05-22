@@ -24,9 +24,9 @@ class Program
 
         builder.Services.AddSingleton<ITelegramBotClient>(sp =>
         {
-            var options = sp.GetRequiredService<IOptions<TelegramOptions>>().Value;
+            var botToken = sp.GetRequiredService<IOptions<TelegramOptions>>().Value.BotToken;
 
-            return new TelegramBotClient(options.BotToken);
+            return new TelegramBotClient(botToken);
         });
 
         builder.Services.AddSingleton<BotTimeProvider>();

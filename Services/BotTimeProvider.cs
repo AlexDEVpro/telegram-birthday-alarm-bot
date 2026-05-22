@@ -7,9 +7,9 @@ namespace TelegramBirthdayAlarmBot.Services
     {
         private readonly TimeZoneInfo _botTimeZone;
 
-        public BotTimeProvider(IOptions<BirthdayOptions> options)
+        public BotTimeProvider(IOptions<BirthdayOptions> birthdayOptions)
         {
-            _botTimeZone = ResolveTimeZone(options.Value.TimeZone);
+            _botTimeZone = ResolveTimeZone(birthdayOptions.Value.TimeZone);
         }
 
         public DateTime Now => TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _botTimeZone);

@@ -21,14 +21,14 @@ namespace TelegramBirthdayAlarmBot.Handlers
 
         private CultureInfo _culture;
 
-        public CompleteAddBirthdayHandler(ITelegramBotClient bot, PendingAddStateService stateService, UserCultureResolver userCultureResolver, StorageService storage, IOptions<BirthdayOptions> options)
+        public CompleteAddBirthdayHandler(ITelegramBotClient bot, PendingAddStateService stateService, UserCultureResolver userCultureResolver, StorageService storage, IOptions<BirthdayOptions> birthdayOptions)
         {
             _bot = bot;
             _stateService = stateService;
             _userCultureResolver = userCultureResolver;
             _storage = storage;
 
-            _culture = new CultureInfo(options.Value.DateCulture);
+            _culture = new CultureInfo(birthdayOptions.Value.DateCulture);
         }
 
         public async Task Handle(CompleteAddBirthdayCommand request, CancellationToken cancellationToken)

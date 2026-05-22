@@ -19,13 +19,13 @@ namespace TelegramBirthdayAlarmBot.Handlers
 
         private CultureInfo _culture;
 
-        public ListHandler(ITelegramBotClient bot, UserCultureResolver userCultureResolver, StorageService storage, IOptions<BirthdayOptions> options)
+        public ListHandler(ITelegramBotClient bot, UserCultureResolver userCultureResolver, StorageService storage, IOptions<BirthdayOptions> birthdayOptions)
         {
             _bot = bot;
             _userCultureResolver = userCultureResolver;
             _storage = storage;
 
-            _culture = new CultureInfo(options.Value.DateCulture);
+            _culture = new CultureInfo(birthdayOptions.Value.DateCulture);
         }
 
         public async Task Handle(ListCommand request, CancellationToken cancellationToken)
