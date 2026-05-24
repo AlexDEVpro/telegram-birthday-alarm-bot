@@ -17,4 +17,4 @@ services:
       - BirthdayOptions__CheckIntervalMinutes=${BIRTHDAY_CHECK_INTERVAL_MINUTES}
 
     volumes:
-      - ./data:/app/data
+      - ./Data:/app/Data

@@ -5,7 +5,7 @@ namespace TelegramBirthdayAlarmBot.Services
 {
     internal class StorageService
     {
-        private readonly string _file = Path.Combine(AppContext.BaseDirectory, "data", "birthdays.json");
+        private readonly string _file = Path.Combine(AppContext.BaseDirectory, "Data", "birthdays.json");
         private readonly object _lock = new();
 
         private BotData _data;
