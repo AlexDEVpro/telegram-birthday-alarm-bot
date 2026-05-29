@@ -1,8 +1,11 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using System.Text;
+
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
-using System.Text;
+
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
+
 using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Models;
 
@@ -75,9 +78,13 @@ namespace TelegramBirthdayAlarmBot.Services
 
                         try
                         {
-                            await _bot.SendMessage(chatId, sb.ToString(), parseMode: ParseMode.Html);
+                            // Congratulatory message.
+                            await _bot.SendMessage(chatId,
+                                sb.ToString(),
+                                parseMode: ParseMode.Html,
+                                disableNotification: false);
 
-                            if(!_storage.MarkCelebrated(chatId, userKey, now.Year))
+                            if (!_storage.MarkCelebrated(chatId, userKey, now.Year))
                             {
                                 Console.Error.WriteLine($"Check - unable to mark celebrated chatID: {chatId}, user key: {userKey}, new celebrated year: {now.Year}.");
                             }

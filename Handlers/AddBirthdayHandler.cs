@@ -1,8 +1,12 @@
-﻿using MediatR;
+﻿using System.Globalization;
+
+using MediatR;
+
 using Microsoft.Extensions.Options;
-using System.Globalization;
+
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
+
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Services;
@@ -50,7 +54,8 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 await _bot.SendMessage(
                     chatId,
                     Resources.BotMessages.AddBirthdayStep1,
-                    ParseMode.Html
+                    ParseMode.Html,
+                    disableNotification: true
                 );
 
                 return;
@@ -67,7 +72,9 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 // Admin section.
                 if (!_adminIDs.Contains(from.Id))
                 {
-                    await _bot.SendMessage(chatId, Resources.BotMessages.AddBirthdayOfOtherUserAdminOnly);
+                    await _bot.SendMessage(chatId,
+                        Resources.BotMessages.AddBirthdayOfOtherUserAdminOnly,
+                        disableNotification: true);
 
                     return;
                 }
@@ -75,8 +82,11 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 var split = input.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
                 if (split.Length < 2)
                 {
-                    await _bot.SendMessage(chatId, $"{Resources.BotMessages.FormatPrefix} {Resources.BotMessages.AddBirthdayByUsernameFormat}", ParseMode.Html);
-                    
+                    await _bot.SendMessage(chatId,
+                        $"{Resources.BotMessages.FormatPrefix} {Resources.BotMessages.AddBirthdayByUsernameFormat}",
+                        ParseMode.Html,
+                        disableNotification: true);
+
                     return;
                 }
 
@@ -93,7 +103,9 @@ namespace TelegramBirthdayAlarmBot.Handlers
 
             if (!DateTime.TryParse(input, _culture, out var date))
             {
-                await _bot.SendMessage(chatId, Resources.BotMessages.InvalidDateWarning);
+                await _bot.SendMessage(chatId,
+                    Resources.BotMessages.InvalidDateWarning,
+                    disableNotification: true);
 
                 return;
             }
@@ -101,12 +113,16 @@ namespace TelegramBirthdayAlarmBot.Handlers
             bool added = _storage.AddBirthday(chatId, userId, usernameOrDisplayName, date);
             if (!added)
             {
-                await _bot.SendMessage(chatId, Resources.BotMessages.DuplicatedUserMessage);
+                await _bot.SendMessage(chatId,
+                    Resources.BotMessages.DuplicatedUserMessage,
+                    disableNotification: true);
 
                 return;
             }
 
-            await _bot.SendMessage(chatId, string.Format(Resources.BotMessages.AddBirthdaySuccess, usernameOrDisplayName));
+            await _bot.SendMessage(chatId,
+                string.Format(Resources.BotMessages.AddBirthdaySuccess, usernameOrDisplayName),
+                disableNotification: true);
         }
     }
 }

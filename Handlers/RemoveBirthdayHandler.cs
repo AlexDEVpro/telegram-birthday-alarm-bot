@@ -1,7 +1,10 @@
 ﻿using MediatR;
+
 using Microsoft.Extensions.Options;
+
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
+
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Services;
@@ -47,8 +50,10 @@ namespace TelegramBirthdayAlarmBot.Handlers
                     // Admin section.
                     if (!_adminIDs.Contains(from.Id))
                     {
-                        await _bot.SendMessage(chatId, Resources.BotMessages.RemoveBirthdayOfOtherUserAdminOnly);
-                        
+                        await _bot.SendMessage(chatId,
+                            Resources.BotMessages.RemoveBirthdayOfOtherUserAdminOnly,
+                            disableNotification: true);
+
                         return;
                     }
 
@@ -57,8 +62,11 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 }
                 else
                 {
-                    await _bot.SendMessage(chatId, $"{Resources.BotMessages.FormatPrefix}{Resources.BotMessages.RemoveBirthdayByUsernameFormat}", ParseMode.Html);
-                    
+                    await _bot.SendMessage(chatId,
+                        $"{Resources.BotMessages.FormatPrefix}{Resources.BotMessages.RemoveBirthdayByUsernameFormat}",
+                        ParseMode.Html,
+                        disableNotification: true);
+
                     return;
                 }
             }
@@ -70,9 +78,13 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 removed = _storage.RemoveBirthday(chatId, usernameOrDisplayName);
 
             if (removed)
-                await _bot.SendMessage(chatId, string.Format(Resources.BotMessages.RemoveBirthdaySuccess, usernameOrDisplayName));
+                await _bot.SendMessage(chatId,
+                    string.Format(Resources.BotMessages.RemoveBirthdaySuccess, usernameOrDisplayName),
+                    disableNotification: true);
             else
-                await _bot.SendMessage(chatId, Resources.BotMessages.BirthdayNotFound);
+                await _bot.SendMessage(chatId,
+                    Resources.BotMessages.BirthdayNotFound,
+                    disableNotification: true);
         }
     }
 }
