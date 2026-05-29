@@ -1,7 +1,9 @@
 ﻿using MediatR;
+
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
+
 using TelegramBirthdayAlarmBot.Commands;
 
 namespace TelegramBirthdayAlarmBot.Services
@@ -33,7 +35,9 @@ namespace TelegramBirthdayAlarmBot.Services
             var from = update.Message.From;
             if (from == null)
             {
-                await _bot.SendMessage(chatId, Resources.BotMessages.ErrorMessageFromIsNull);
+                await _bot.SendMessage(chatId,
+                    Resources.BotMessages.ErrorMessageFromIsNull,
+                    disableNotification: true);
 
                 return;
             }

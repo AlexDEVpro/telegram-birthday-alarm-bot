@@ -1,7 +1,10 @@
-﻿using MediatR;
-using System.Text;
+﻿using System.Text;
+
+using MediatR;
+
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
+
 using TelegramBirthdayAlarmBot.Commands;
 
 namespace TelegramBirthdayAlarmBot.Handlers
@@ -34,7 +37,10 @@ namespace TelegramBirthdayAlarmBot.Handlers
         {
             var chatId = request.ChatId;
 
-            await _bot.SendMessage(chatId, _helpMessage, ParseMode.Html);
+            await _bot.SendMessage(chatId,
+                _helpMessage,
+                ParseMode.Html,
+                disableNotification: true);
         }
     }
 }

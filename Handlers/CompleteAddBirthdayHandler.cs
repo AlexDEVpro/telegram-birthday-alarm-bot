@@ -1,9 +1,13 @@
-﻿using MediatR;
+﻿using System.Globalization;
+
+using MediatR;
+
 using Microsoft.Extensions.Options;
-using System.Globalization;
+
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Constants;
@@ -53,24 +57,29 @@ namespace TelegramBirthdayAlarmBot.Handlers
                     {
                         ResizeKeyboard = true,
                         OneTimeKeyboard = true
-                    }
+                    },
+                    disableNotification: true
                 );
 
                 return;
             }
 
             var usernameOrFirstName = from.Username != null ? "@" + from.Username : from.FirstName;
-            
+
             bool added = _storage.AddBirthday(chatId, from.Id, usernameOrFirstName, date);
             if (added)
             {
-                await _bot.SendMessage(chatId, string.Format(Resources.BotMessages.AddBirthdaySuccess, usernameOrFirstName));
-                
+                await _bot.SendMessage(chatId,
+                    string.Format(Resources.BotMessages.AddBirthdaySuccess, usernameOrFirstName),
+                    disableNotification: true);
+
                 _stateService.RemovePending(from.Id);
             }
             else
             {
-                await _bot.SendMessage(chatId, Resources.BotMessages.DuplicatedUserMessage);
+                await _bot.SendMessage(chatId,
+                    Resources.BotMessages.DuplicatedUserMessage,
+                    disableNotification: true);
             }
         }
     }

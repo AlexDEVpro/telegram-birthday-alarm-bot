@@ -1,9 +1,13 @@
-﻿using MediatR;
-using Microsoft.Extensions.Options;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Text;
+
+using MediatR;
+
+using Microsoft.Extensions.Options;
+
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
+
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Services;
@@ -39,7 +43,9 @@ namespace TelegramBirthdayAlarmBot.Handlers
             var list = _storage.GetSortedBirthdays(chatId);
             if (list.Count == 0)
             {
-                await _bot.SendMessage(chatId, Resources.BotMessages.ListEmpty);
+                await _bot.SendMessage(chatId,
+                    Resources.BotMessages.ListEmpty,
+                    disableNotification: true);
 
                 return;
             }
@@ -53,7 +59,10 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 sb.Append($"{bs.DisplayName} — {bs.Date.ToString(Resources.BotMessages.ListItemDateFormat, _culture)}");
             }
 
-            await _bot.SendMessage(chatId, sb.ToString(), ParseMode.Html);
+            await _bot.SendMessage(chatId,
+                sb.ToString(),
+                ParseMode.Html,
+                disableNotification: true);
         }
     }
 }

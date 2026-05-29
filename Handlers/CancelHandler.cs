@@ -1,5 +1,7 @@
 ﻿using MediatR;
+
 using Telegram.Bot;
+
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Services;
 
@@ -23,11 +25,15 @@ namespace TelegramBirthdayAlarmBot.Handlers
 
             if (_stateService.RemovePending(from.Id))
             {
-                await _bot.SendMessage(chatId, Resources.BotMessages.ActionCancelled);
+                await _bot.SendMessage(chatId,
+                    Resources.BotMessages.ActionCancelled,
+                    disableNotification: true);
             }
             else
             {
-                await _bot.SendMessage(chatId, Resources.BotMessages.NoActiveActionsToCancel);
+                await _bot.SendMessage(chatId,
+                    Resources.BotMessages.NoActiveActionsToCancel,
+                    disableNotification: true);
             }
         }
     }
