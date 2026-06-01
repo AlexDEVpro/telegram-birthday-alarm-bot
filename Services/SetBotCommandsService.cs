@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using System.Globalization;
+using System.Resources;
+
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 
 using Telegram.Bot;
@@ -41,13 +44,17 @@ internal class SetBotCommandsService : IHostedService
     private async Task RegisterDefaultCommands(
         CancellationToken cancellationToken)
     {
+        var r = new ResourceManager(typeof(Resources.BotMessages));
+        var cultureEn = new CultureInfo("en-US");
+        var cultureRu = new CultureInfo("ru-RU");
+
         await _bot.SetMyCommands(
         [
-            new() { Command = BotCommands.AddBirthday, Description = "Add your birthday" },
-            new() { Command = BotCommands.RemoveBirthday, Description = "Remove your birthday" },
-            new() { Command = BotCommands.List, Description = "List of all birthdays" },
-            new() { Command = BotCommands.Cancel, Description = "Cancel birthday adding operation" },
-            new() { Command = BotCommands.Help, Description = "Command format and tips" }
+            new() { Command = BotCommands.AddBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandAddBirthday), cultureEn)! },
+            new() { Command = BotCommands.RemoveBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandRemoveBirthday), cultureEn)! },
+            new() { Command = BotCommands.List, Description = r.GetString(nameof(Resources.BotMessages.BotCommandList), cultureEn)! },
+            new() { Command = BotCommands.Cancel, Description = r.GetString(nameof(Resources.BotMessages.BotCommandCancel), cultureEn)! },
+            new() { Command = BotCommands.Help, Description = r.GetString(nameof(Resources.BotMessages.BotCommandHelp), cultureEn)! }
         ],
         scope: new BotCommandScopeDefault(),
         languageCode: "en",
@@ -55,11 +62,11 @@ internal class SetBotCommandsService : IHostedService
 
         await _bot.SetMyCommands(
         [
-            new() { Command = BotCommands.AddBirthday, Description = "Добавить свой ДР" },
-            new() { Command = BotCommands.RemoveBirthday, Description = "Удалить свой ДР" },
-            new() { Command = BotCommands.List, Description = "Список всех ДР" },
-            new() { Command = BotCommands.Cancel, Description = "Отмена операции добавления ДР" },
-            new() { Command = BotCommands.Help, Description = "Формат команд и подсказки" }
+            new() { Command = BotCommands.AddBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandAddBirthday), cultureRu)! },
+            new() { Command = BotCommands.RemoveBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandRemoveBirthday), cultureRu)! },
+            new() { Command = BotCommands.List, Description = r.GetString(nameof(Resources.BotMessages.BotCommandList), cultureRu)! },
+            new() { Command = BotCommands.Cancel, Description = r.GetString(nameof(Resources.BotMessages.BotCommandCancel), cultureRu)! },
+            new() { Command = BotCommands.Help, Description = r.GetString(nameof(Resources.BotMessages.BotCommandHelp), cultureRu)! }
         ],
         scope: new BotCommandScopeDefault(),
         languageCode: "ru",
@@ -69,13 +76,17 @@ internal class SetBotCommandsService : IHostedService
     private async Task RegisterTelegramAdminCommands(
         CancellationToken cancellationToken)
     {
+        var r = new ResourceManager(typeof(Resources.BotMessages));
+        var cultureEn = new CultureInfo("en-US");
+        var cultureRu = new CultureInfo("ru-RU");
+
         await _bot.SetMyCommands(
         [
-            new() { Command = BotCommands.AddBirthday, Description = "Add your birthday or another user's birthday" },
-            new() { Command = BotCommands.RemoveBirthday, Description = "Remove your birthday or another user's birthday" },
-            new() { Command = BotCommands.List, Description = "List of all birthdays" },
-            new() { Command = BotCommands.Cancel, Description = "Cancel birthday adding operation" },
-            new() { Command = BotCommands.Help, Description = "Command format and tips" }
+            new() { Command = BotCommands.AddBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandAddBirthdayAdmin), cultureEn)! },
+            new() { Command = BotCommands.RemoveBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandRemoveBirthdayAdmin), cultureEn)! },
+            new() { Command = BotCommands.List, Description = r.GetString(nameof(Resources.BotMessages.BotCommandList), cultureEn)! },
+            new() { Command = BotCommands.Cancel, Description = r.GetString(nameof(Resources.BotMessages.BotCommandCancel), cultureEn)! },
+            new() { Command = BotCommands.Help, Description = r.GetString(nameof(Resources.BotMessages.BotCommandHelpAdmin), cultureEn)! }
         ],
         scope: new BotCommandScopeAllChatAdministrators(),
         languageCode: "en",
@@ -83,11 +94,11 @@ internal class SetBotCommandsService : IHostedService
 
         await _bot.SetMyCommands(
         [
-            new() { Command = BotCommands.AddBirthday, Description = "Добавить свой ДР или ДР другого пользователя" },
-            new() { Command = BotCommands.RemoveBirthday, Description = "Удалить свой ДР или ДР другого пользователя" },
-            new() { Command = BotCommands.List, Description = "Список всех ДР" },
-            new() { Command = BotCommands.Cancel, Description = "Отмена операции добавления ДР" },
-            new() { Command = BotCommands.Help, Description = "Формат команд и подсказки" }
+            new() { Command = BotCommands.AddBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandAddBirthdayAdmin), cultureRu)! },
+            new() { Command = BotCommands.RemoveBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandRemoveBirthdayAdmin), cultureRu)! },
+            new() { Command = BotCommands.List, Description = r.GetString(nameof(Resources.BotMessages.BotCommandList), cultureRu)! },
+            new() { Command = BotCommands.Cancel, Description = r.GetString(nameof(Resources.BotMessages.BotCommandCancel), cultureRu)! },
+            new() { Command = BotCommands.Help, Description = r.GetString(nameof(Resources.BotMessages.BotCommandHelpAdmin), cultureRu)! }
         ],
         scope: new BotCommandScopeAllChatAdministrators(),
         languageCode: "ru",
