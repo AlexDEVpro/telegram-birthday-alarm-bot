@@ -198,4 +198,28 @@
   <data name="RemovebirthdayOfOtherUserCommandHelp" xml:space="preserve">
     <value>&lt;pre&gt;/removebirthday @username&lt;/pre&gt; to remove the specified user's birthday (admins only).</value>
   </data>
+  <data name="BotCommandAddBirthday" xml:space="preserve">
+    <value>Add your birthday</value>
+  </data>
+  <data name="BotCommandAddBirthdayAdmin" xml:space="preserve">
+    <value>Add your birthday or another user's birthday</value>
+  </data>
+  <data name="BotCommandRemoveBirthday" xml:space="preserve">
+    <value>Remove your birthday</value>
+  </data>
+  <data name="BotCommandRemoveBirthdayAdmin" xml:space="preserve">
+    <value>Remove your birthday or another user's birthday</value>
+  </data>
+  <data name="BotCommandList" xml:space="preserve">
+    <value>List of all birthdays</value>
+  </data>
+  <data name="BotCommandCancel" xml:space="preserve">
+    <value>Cancel birthday adding operation</value>
+  </data>
+  <data name="BotCommandHelp" xml:space="preserve">
+    <value>Command formats and tips</value>
+  </data>
+  <data name="BotCommandHelpAdmin" xml:space="preserve">
+    <value>Command formats (including admin commands) and tips</value>
+  </data>
 </root>

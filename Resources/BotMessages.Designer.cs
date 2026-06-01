@@ -151,6 +151,78 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add your birthday.
+        /// </summary>
+        internal static string BotCommandAddBirthday {
+            get {
+                return ResourceManager.GetString("BotCommandAddBirthday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Add your birthday or another user&apos;s birthday.
+        /// </summary>
+        internal static string BotCommandAddBirthdayAdmin {
+            get {
+                return ResourceManager.GetString("BotCommandAddBirthdayAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cancel birthday adding operation.
+        /// </summary>
+        internal static string BotCommandCancel {
+            get {
+                return ResourceManager.GetString("BotCommandCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command formats and tips.
+        /// </summary>
+        internal static string BotCommandHelp {
+            get {
+                return ResourceManager.GetString("BotCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Command formats (including admin commands) and tips.
+        /// </summary>
+        internal static string BotCommandHelpAdmin {
+            get {
+                return ResourceManager.GetString("BotCommandHelpAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List of all birthdays.
+        /// </summary>
+        internal static string BotCommandList {
+            get {
+                return ResourceManager.GetString("BotCommandList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove your birthday.
+        /// </summary>
+        internal static string BotCommandRemoveBirthday {
+            get {
+                return ResourceManager.GetString("BotCommandRemoveBirthday", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove your birthday or another user&apos;s birthday.
+        /// </summary>
+        internal static string BotCommandRemoveBirthdayAdmin {
+            get {
+                return ResourceManager.GetString("BotCommandRemoveBirthdayAdmin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;pre&gt;/cancel&lt;/pre&gt;for canceling the birthday addition operation..
         /// </summary>
         internal static string CancelCommandHelp {

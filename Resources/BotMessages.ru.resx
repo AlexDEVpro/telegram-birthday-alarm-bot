@@ -198,4 +198,28 @@
   <data name="RemovebirthdayOfOtherUserCommandHelp" xml:space="preserve">
     <value>&lt;pre&gt;/removebirthday @username&lt;/pre&gt; для удаления ДР указанного пользователя (только для админов).</value>
   </data>
+  <data name="BotCommandAddBirthday" xml:space="preserve">
+    <value>Добавить свой ДР</value>
+  </data>
+  <data name="BotCommandAddBirthdayAdmin" xml:space="preserve">
+    <value>Добавить свой ДР или ДР другого пользователя</value>
+  </data>
+  <data name="BotCommandRemoveBirthday" xml:space="preserve">
+    <value>Удалить свой ДР</value>
+  </data>
+  <data name="BotCommandRemoveBirthdayAdmin" xml:space="preserve">
+    <value>Удалить свой ДР или ДР другого пользователя</value>
+  </data>
+  <data name="BotCommandList" xml:space="preserve">
+    <value>Список всех ДР</value>
+  </data>
+  <data name="BotCommandCancel" xml:space="preserve">
+    <value>Отмена операции добавления ДР</value>
+  </data>
+  <data name="BotCommandHelp" xml:space="preserve">
+    <value>Формат команд и подсказки</value>
+  </data>
+  <data name="BotCommandHelpAdmin" xml:space="preserve">
+    <value>Формат команд (включая команды администраторов) и подсказки</value>
+  </data>
 </root>
