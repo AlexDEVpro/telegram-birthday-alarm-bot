@@ -79,7 +79,7 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;pre&gt;/addbirthday&lt;/pre&gt; then, for example, &lt;pre&gt;May 25, 2002&lt;/pre&gt; or without a year &lt;pre&gt;May 25&lt;/pre&gt;or directly &lt;pre&gt;/addbirthday June 1, 2000&lt;/pre&gt; or directly without a year &lt;pre&gt;/addbirthday June 1&lt;/pre&gt; to add your birthday..
+        ///   Looks up a localized string similar to &lt;pre&gt;/addbirthday&lt;/pre&gt; then, for example, &lt;pre&gt;May 25, 2002&lt;/pre&gt; or without a year &lt;pre&gt;May 25&lt;/pre&gt; or directly &lt;pre&gt;/addbirthday June 1, 2000&lt;/pre&gt; or directly without a year &lt;pre&gt;/addbirthday June 1&lt;/pre&gt; to add your birthday..
         /// </summary>
         internal static string AddbirthdayCommandHelp {
             get {
@@ -88,11 +88,20 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 🚫 Only the bot admin can add birthdays for other users..
+        ///   Looks up a localized string similar to 🚫 Only admins can add birthdays of other users..
         /// </summary>
         internal static string AddBirthdayOfOtherUserAdminOnly {
             get {
                 return ResourceManager.GetString("AddBirthdayOfOtherUserAdminOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;pre&gt;/addbirthday @username date&lt;/pre&gt; where date is any parseable date, such as &lt;pre&gt;May 25, 2002&lt;/pre&gt; or without a year &lt;pre&gt;May 25&lt;/pre&gt; to add the specified user&apos;s birthday (admins only)..
+        /// </summary>
+        internal static string AddbirthdayOfOtherUserCommandHelp {
+            get {
+                return ResourceManager.GetString("AddbirthdayOfOtherUserCommandHelp", resourceCulture);
             }
         }
         
@@ -268,11 +277,20 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 🚫 Only the bot admin can delete other users’ birthdays..
+        ///   Looks up a localized string similar to 🚫 Only admins can remove birthdays of other users..
         /// </summary>
         internal static string RemoveBirthdayOfOtherUserAdminOnly {
             get {
                 return ResourceManager.GetString("RemoveBirthdayOfOtherUserAdminOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &lt;pre&gt;/removebirthday @username&lt;/pre&gt; to remove the specified user&apos;s birthday (admins only)..
+        /// </summary>
+        internal static string RemovebirthdayOfOtherUserCommandHelp {
+            get {
+                return ResourceManager.GetString("RemovebirthdayOfOtherUserCommandHelp", resourceCulture);
             }
         }
         

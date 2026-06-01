@@ -2,7 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+
 using Telegram.Bot;
+
 using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Services;
 using TelegramBirthdayAlarmBot.Services.Localization;
@@ -19,6 +21,8 @@ class Program
             .AddEnvironmentVariables();
         builder.Services.Configure<TelegramOptions>(
             builder.Configuration.GetSection(nameof(TelegramOptions)));
+        builder.Services.Configure<PermissionOptions>(
+            builder.Configuration.GetSection(nameof(PermissionOptions)));
         builder.Services.Configure<BirthdayOptions>(
             builder.Configuration.GetSection(nameof(BirthdayOptions)));
 
@@ -33,6 +37,8 @@ class Program
         builder.Services.AddSingleton<StorageService>();
         builder.Services.AddSingleton<BotService>();
         builder.Services.AddSingleton<PendingAddStateService>();
+        builder.Services.AddSingleton<TelegramGroupUserPermissionService>();
+        builder.Services.AddSingleton<BotPermissionService>();
         builder.Services.AddSingleton<UserCultureResolver>();
 
         builder.Services.AddHostedService<SetBotCommandsService>();

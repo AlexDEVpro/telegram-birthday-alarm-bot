@@ -157,10 +157,10 @@
     <value>&lt;pre&gt;/removebirthday&lt;/pre&gt;для удаления своего ДР.</value>
   </data>
   <data name="AddBirthdayOfOtherUserAdminOnly" xml:space="preserve">
-    <value>🚫 Только админ бота может добавлять ДР других пользователей.</value>
+    <value>🚫 Только админы могут добавлять ДР других пользователей.</value>
   </data>
   <data name="RemoveBirthdayOfOtherUserAdminOnly" xml:space="preserve">
-    <value>🚫 Только админ бота может удалять ДР других пользователей.</value>
+    <value>🚫 Только админы могут удалять ДР других пользователей.</value>
   </data>
   <data name="AddBirthdayByUsernameFormat" xml:space="preserve">
     <value>&lt;code&gt;/addbirthday @username d MMMM yyyy&lt;/code&gt;.</value>
@@ -191,5 +191,11 @@
   </data>
   <data name="LateBirthdayCongratsAppendix" xml:space="preserve">
     <value>Слоупочно поздравляем! 😅</value>
+  </data>
+  <data name="AddbirthdayOfOtherUserCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/addbirthday @username date&lt;/pre&gt; где date это любая распознаваемая дата, такая как &lt;pre&gt;25 мая 2002&lt;/pre&gt; или без года &lt;pre&gt;25 мая&lt;/pre&gt; для добавления ДР указанного пользователя (только для админов).</value>
+  </data>
+  <data name="RemovebirthdayOfOtherUserCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/removebirthday @username&lt;/pre&gt; для удаления ДР указанного пользователя (только для админов).</value>
   </data>
 </root>

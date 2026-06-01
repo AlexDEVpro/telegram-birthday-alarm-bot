@@ -10,6 +10,7 @@ services:
       - TelegramOptions__BotToken=${TELEGRAM_BOT_TOKEN}
       - TelegramOptions__AdminIDs__0=${ADMIN_ID_1}
       - TelegramOptions__AdminIDs__1=${ADMIN_ID_2}
+      - PermissionOptions__AllowTelegramGroupAdmins=${ALLOW_TELEGRAM_GROUP_ADMINS}
       - BirthdayOptions__DateCulture=${BIRTHDAY_DATE_CULTURE}
       - BirthdayOptions__SendHour=${BIRTHDAY_SEND_HOUR}
       - BirthdayOptions__TimeZone=${BIRTHDAY_TIMEZONE}

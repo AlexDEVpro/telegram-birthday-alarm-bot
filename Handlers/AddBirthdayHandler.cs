@@ -9,6 +9,7 @@ using Telegram.Bot.Types.Enums;
 
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Configuration;
+using TelegramBirthdayAlarmBot.Models;
 using TelegramBirthdayAlarmBot.Services;
 using TelegramBirthdayAlarmBot.Services.Localization;
 
@@ -18,20 +19,26 @@ namespace TelegramBirthdayAlarmBot.Handlers
     {
         private readonly ITelegramBotClient _bot;
         private readonly PendingAddStateService _stateService;
+        private readonly BotPermissionService _botPermissionService;
         private readonly UserCultureResolver _userCultureResolver;
         private readonly StorageService _storage;
 
-        private long[] _adminIDs;
         private CultureInfo _culture;
 
-        public AddBirthdayHandler(ITelegramBotClient bot, PendingAddStateService stateService, UserCultureResolver userCultureResolver, StorageService storage, IOptions<TelegramOptions> telegramOptions, IOptions<BirthdayOptions> birthdayOptions)
+        public AddBirthdayHandler(ITelegramBotClient bot,
+            PendingAddStateService stateService,
+            BotPermissionService botPermissionService,
+            UserCultureResolver userCultureResolver,
+            StorageService storage,
+            IOptions<TelegramOptions> telegramOptions,
+            IOptions<BirthdayOptions> birthdayOptions)
         {
             _bot = bot;
             _stateService = stateService;
+            _botPermissionService = botPermissionService;
             _userCultureResolver = userCultureResolver;
             _storage = storage;
 
-            _adminIDs = telegramOptions.Value.AdminIDs;
             _culture = new CultureInfo(birthdayOptions.Value.DateCulture);
         }
 
@@ -70,7 +77,9 @@ namespace TelegramBirthdayAlarmBot.Handlers
             if (input.StartsWith("@"))
             {
                 // Admin section.
-                if (!_adminIDs.Contains(from.Id))
+                if (!await _botPermissionService.HasPermissionAsync(chatId,
+                    from.Id,
+                    BotPermission.ManageOtherBirthdays))
                 {
                     await _bot.SendMessage(chatId,
                         Resources.BotMessages.AddBirthdayOfOtherUserAdminOnly,

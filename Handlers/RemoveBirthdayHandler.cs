@@ -7,6 +7,7 @@ using Telegram.Bot.Types.Enums;
 
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Configuration;
+using TelegramBirthdayAlarmBot.Models;
 using TelegramBirthdayAlarmBot.Services;
 
 namespace TelegramBirthdayAlarmBot.Handlers
@@ -14,13 +15,18 @@ namespace TelegramBirthdayAlarmBot.Handlers
     internal class RemoveBirthdayHandler : IRequestHandler<RemoveBirthdayCommand>
     {
         private readonly ITelegramBotClient _bot;
+        private readonly BotPermissionService _botPermissionService;
         private readonly StorageService _storage;
 
-        private long[] _adminIDs;
+        private readonly long[] _adminIDs;
 
-        public RemoveBirthdayHandler(ITelegramBotClient bot, StorageService storage, IOptions<TelegramOptions> telegramOptions)
+        public RemoveBirthdayHandler(ITelegramBotClient bot,
+            BotPermissionService botPermissionService,
+            StorageService storage,
+            IOptions<TelegramOptions> telegramOptions)
         {
             _bot = bot;
+            _botPermissionService = botPermissionService;
             _storage = storage;
 
             _adminIDs = telegramOptions.Value.AdminIDs;
@@ -48,7 +54,9 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 if (input.StartsWith("@"))
                 {
                     // Admin section.
-                    if (!_adminIDs.Contains(from.Id))
+                    if (!await _botPermissionService.HasPermissionAsync(chatId,
+                        from.Id,
+                        BotPermission.ManageOtherBirthdays))
                     {
                         await _bot.SendMessage(chatId,
                             Resources.BotMessages.RemoveBirthdayOfOtherUserAdminOnly,
