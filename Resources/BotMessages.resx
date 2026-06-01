@@ -121,7 +121,7 @@
     <value>❌ Action canceled.</value>
   </data>
   <data name="AddbirthdayCommandHelp" xml:space="preserve">
-    <value>&lt;pre&gt;/addbirthday&lt;/pre&gt; then, for example, &lt;pre&gt;May 25, 2002&lt;/pre&gt; or without a year &lt;pre&gt;May 25&lt;/pre&gt;or directly &lt;pre&gt;/addbirthday June 1, 2000&lt;/pre&gt; or directly without a year &lt;pre&gt;/addbirthday June 1&lt;/pre&gt; to add your birthday.</value>
+    <value>&lt;pre&gt;/addbirthday&lt;/pre&gt; then, for example, &lt;pre&gt;May 25, 2002&lt;/pre&gt; or without a year &lt;pre&gt;May 25&lt;/pre&gt; or directly &lt;pre&gt;/addbirthday June 1, 2000&lt;/pre&gt; or directly without a year &lt;pre&gt;/addbirthday June 1&lt;/pre&gt; to add your birthday.</value>
   </data>
   <data name="AddBirthdayStep2InvalidDateAppendix" xml:space="preserve">
     <value>Or use &lt;code&gt;/cancel&lt;/code&gt; to cancel.</value>
@@ -157,10 +157,10 @@
     <value>&lt;pre&gt;/removebirthday&lt;/pre&gt;to remove your birthday.</value>
   </data>
   <data name="AddBirthdayOfOtherUserAdminOnly" xml:space="preserve">
-    <value>🚫 Only the bot admin can add birthdays for other users.</value>
+    <value>🚫 Only admins can add birthdays of other users.</value>
   </data>
   <data name="RemoveBirthdayOfOtherUserAdminOnly" xml:space="preserve">
-    <value>🚫 Only the bot admin can delete other users’ birthdays.</value>
+    <value>🚫 Only admins can remove birthdays of other users.</value>
   </data>
   <data name="AddBirthdayByUsernameFormat" xml:space="preserve">
     <value>&lt;code&gt;/addbirthday @username MMMM d, yyyy&lt;/code&gt;.</value>
@@ -191,5 +191,11 @@
   </data>
   <data name="LateBirthdayCongratsAppendix" xml:space="preserve">
     <value>Fashionably late, Slowpoke edition 😅</value>
+  </data>
+  <data name="AddbirthdayOfOtherUserCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/addbirthday @username date&lt;/pre&gt; where date is any parseable date, such as &lt;pre&gt;May 25, 2002&lt;/pre&gt; or without a year &lt;pre&gt;May 25&lt;/pre&gt; to add the specified user's birthday (admins only).</value>
+  </data>
+  <data name="RemovebirthdayOfOtherUserCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/removebirthday @username&lt;/pre&gt; to remove the specified user's birthday (admins only).</value>
   </data>
 </root>

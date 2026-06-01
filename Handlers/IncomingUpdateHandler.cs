@@ -1,4 +1,5 @@
 ﻿using MediatR;
+
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Constants;
 using TelegramBirthdayAlarmBot.Services;
@@ -52,7 +53,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
             }
             else if (text.StartsWith($"/{BotCommands.Help}"))
             {
-                await _mediator.Send(new HelpCommand(chatId), cancellationToken);
+                await _mediator.Send(new HelpCommand(chatId, from), cancellationToken);
             }
         }
     }
