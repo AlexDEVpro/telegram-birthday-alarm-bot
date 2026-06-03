@@ -37,6 +37,7 @@ class Program
         builder.Services.AddSingleton<StorageService>();
         builder.Services.AddSingleton<BotService>();
         builder.Services.AddSingleton<PendingAddStateService>();
+        builder.Services.AddSingleton<PendingSetCongratulateLangStateService>();
         builder.Services.AddSingleton<TelegramGroupUserPermissionService>();
         builder.Services.AddSingleton<BotPermissionService>();
         builder.Services.AddSingleton<CultureContextManager>();
