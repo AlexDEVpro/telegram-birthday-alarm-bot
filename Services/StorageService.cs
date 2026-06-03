@@ -195,17 +195,17 @@ namespace TelegramBirthdayAlarmBot.Services
                 return SupportedLanguages.Default.Culture;
             }
         }
-        public bool SetCongratulateCulture(string chatId, string culture)
+        public bool SetCongratulateCulture(string chatId, string languageLabel)
         {
             lock (_lock)
             {
                 if (!_data.Chats.ContainsKey(chatId))
                     _data.Chats[chatId] = new ChatData();
 
-                if (!SupportedLanguages.ByCulture.ContainsKey(culture))
+                if (!SupportedLanguages.ByLabel.TryGetValue(languageLabel, out var value))
                     return false;
 
-                _data.Chats[chatId].CongratulateCulture = culture;
+                _data.Chats[chatId].CongratulateCulture = value.Culture;
 
                 Save();
                 return true;

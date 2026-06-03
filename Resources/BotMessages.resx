@@ -232,7 +232,7 @@
     <value>⚠ Unsupported language.</value>
   </data>
   <data name="CongratulationsLanguageChanged" xml:space="preserve">
-    <value>✅ Congratulations language set to {0}.</value>
+    <value>✅ Congratulations language set to: {0}.</value>
   </data>
   <data name="BotCommandSetCongratulateLangOwner" xml:space="preserve">
     <value>Select the birthday congratulations language</value>

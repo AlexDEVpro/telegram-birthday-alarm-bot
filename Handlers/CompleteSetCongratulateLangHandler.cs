@@ -35,24 +35,26 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 return;
             }
 
-            if (!SupportedLanguages.ByCulture.ContainsKey(request.Culture))
+            if (!SupportedLanguages.ByLabel.ContainsKey(request.LanguageLabel))
             {
                 await _bot.SendMessage(
                     request.ChatId,
-                    Resources.BotMessages.UnsupportedLanguage);
+                    Resources.BotMessages.UnsupportedLanguage,
+                    disableNotification: true);
 
                 return;
             }
 
             _storage.SetCongratulateCulture(
                 request.ChatId,
-                request.Culture);
+                request.LanguageLabel);
 
             _stateService.Remove(request.From.Id);
 
             await _bot.SendMessage(
                 request.ChatId,
-                string.Format(Resources.BotMessages.CongratulationsLanguageChanged, request.Culture));
+                string.Format(Resources.BotMessages.CongratulationsLanguageChanged, request.LanguageLabel),
+                disableNotification: true);
         }
     }
 }

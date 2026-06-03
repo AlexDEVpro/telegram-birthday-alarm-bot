@@ -250,7 +250,7 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ✅ Congratulations language set to {0}..
+        ///   Looks up a localized string similar to ✅ Congratulations language set to: {0}..
         /// </summary>
         internal static string CongratulationsLanguageChanged {
             get {
