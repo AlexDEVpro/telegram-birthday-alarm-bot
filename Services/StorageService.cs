@@ -1,4 +1,6 @@
 ﻿using System.Text.Json;
+
+using TelegramBirthdayAlarmBot.Constants;
 using TelegramBirthdayAlarmBot.Models;
 
 namespace TelegramBirthdayAlarmBot.Services
@@ -180,6 +182,33 @@ namespace TelegramBirthdayAlarmBot.Services
                 }
 
                 return false;
+            }
+        }
+
+        public string GetCongratulateCulture(string chatId)
+        {
+            lock (_lock)
+            {
+                if (_data.Chats.ContainsKey(chatId))
+                    return _data.Chats[chatId].CongratulateCulture;
+
+                return SupportedLanguages.Default.Culture;
+            }
+        }
+        public bool SetCongratulateCulture(string chatId, string culture)
+        {
+            lock (_lock)
+            {
+                if (!_data.Chats.ContainsKey(chatId))
+                    _data.Chats[chatId] = new ChatData();
+
+                if (!SupportedLanguages.ByCulture.ContainsKey(culture))
+                    return false;
+
+                _data.Chats[chatId].CongratulateCulture = culture;
+
+                Save();
+                return true;
             }
         }
 

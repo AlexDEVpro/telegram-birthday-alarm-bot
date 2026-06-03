@@ -1,17 +1,11 @@
-﻿using System.Globalization;
-
-using MediatR;
-
-using Microsoft.Extensions.Options;
+﻿using MediatR;
 
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
 using TelegramBirthdayAlarmBot.Commands;
-using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Models;
 using TelegramBirthdayAlarmBot.Services;
-using TelegramBirthdayAlarmBot.Services.Localization;
 
 namespace TelegramBirthdayAlarmBot.Handlers
 {
@@ -20,26 +14,18 @@ namespace TelegramBirthdayAlarmBot.Handlers
         private readonly ITelegramBotClient _bot;
         private readonly PendingAddStateService _stateService;
         private readonly BotPermissionService _botPermissionService;
-        private readonly UserCultureResolver _userCultureResolver;
         private readonly StorageService _storage;
 
-        private CultureInfo _culture;
-
-        public AddBirthdayHandler(ITelegramBotClient bot,
+        public AddBirthdayHandler(
+            ITelegramBotClient bot,
             PendingAddStateService stateService,
             BotPermissionService botPermissionService,
-            UserCultureResolver userCultureResolver,
-            StorageService storage,
-            IOptions<TelegramOptions> telegramOptions,
-            IOptions<BirthdayOptions> birthdayOptions)
+            StorageService storage)
         {
             _bot = bot;
             _stateService = stateService;
             _botPermissionService = botPermissionService;
-            _userCultureResolver = userCultureResolver;
             _storage = storage;
-
-            _culture = new CultureInfo(birthdayOptions.Value.DateCulture);
         }
 
         public async Task Handle(AddBirthdayCommand request, CancellationToken cancellationToken)
@@ -47,9 +33,6 @@ namespace TelegramBirthdayAlarmBot.Handlers
             var chatId = request.ChatId;
             var from = request.From;
             var text = request.Text;
-
-            // Resolve user culture.
-            _culture = _userCultureResolver.Resolve(from.LanguageCode);
 
             var parts = text.Split(' ', 2, StringSplitOptions.RemoveEmptyEntries);
 
@@ -110,7 +93,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 usernameOrDisplayName = from.Username != null ? "@" + from.Username : from.FirstName;
             }
 
-            if (!DateTime.TryParse(input, _culture, out var date))
+            if (!DateTime.TryParse(input, out var date))
             {
                 await _bot.SendMessage(chatId,
                     Resources.BotMessages.InvalidDateWarning,

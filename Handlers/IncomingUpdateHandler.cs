@@ -3,18 +3,30 @@
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Constants;
 using TelegramBirthdayAlarmBot.Services;
+using TelegramBirthdayAlarmBot.Services.Localization;
 
 namespace TelegramBirthdayAlarmBot.Handlers
 {
     internal class IncomingUpdateHandler : IRequestHandler<IncomingUpdateCommand>
     {
         private readonly IMediator _mediator;
-        private readonly PendingAddStateService _stateService;
+        private readonly UserCultureResolver _userCultureResolver;
+        private readonly CultureContextManager _cultureContextManager;
+        private readonly PendingAddStateService _pendingAddStateService;
+        private readonly PendingSetCongratulateLangStateService _pendingSetCongratulateLangStateService;
 
-        public IncomingUpdateHandler(IMediator mediator, PendingAddStateService stateService)
+        public IncomingUpdateHandler(
+            IMediator mediator,
+            UserCultureResolver userCultureResolver,
+            CultureContextManager cultureContextManager,
+            PendingAddStateService stateService,
+            PendingSetCongratulateLangStateService setCongratulateLangStateService)
         {
             _mediator = mediator;
-            _stateService = stateService;
+            _userCultureResolver = userCultureResolver;
+            _cultureContextManager = cultureContextManager;
+            _pendingAddStateService = stateService;
+            _pendingSetCongratulateLangStateService = setCongratulateLangStateService;
         }
 
         public async Task Handle(IncomingUpdateCommand request, CancellationToken cancellationToken)
@@ -23,37 +35,55 @@ namespace TelegramBirthdayAlarmBot.Handlers
             var from = request.From;
             var text = request.Text;
 
-            // Cancel of add birthday interactive mode.
-            if (text.StartsWith($"/{BotCommands.Cancel}"))
+            using (_cultureContextManager.Use(_userCultureResolver.Resolve(from.LanguageCode)))
             {
-                await _mediator.Send(new CancelCommand(chatId, from), cancellationToken);
+                // Cancel of add birthday interactive mode.
+                if (text.StartsWith($"/{BotCommands.Cancel}"))
+                {
+                    await _mediator.Send(new CancelCommand(chatId, from), cancellationToken);
 
-                return;
-            }
+                    return;
+                }
 
-            // Add birthday interactive mode. Step 2.
-            if (_stateService.IsPending(chatId, from.Id))
-            {
-                await _mediator.Send(new CompleteAddBirthdayCommand(chatId, from, text), cancellationToken);
+                // Add birthday interactive mode. Step 2.
+                if (_pendingAddStateService.IsPending(chatId, from.Id))
+                {
+                    await _mediator.Send(new CompleteAddBirthdayCommand(chatId, from, text), cancellationToken);
 
-                return;
-            }
+                    return;
+                }
+                // Set congratulate lang interactive mode. Step 2.
+                if (_pendingSetCongratulateLangStateService.IsPending(chatId, from.Id))
+                {
+                    await _mediator.Send(
+                        new CompleteSetCongratulateLangCommand(
+                            chatId,
+                            from,
+                            text));
 
-            if (text.StartsWith($"/{BotCommands.AddBirthday}"))
-            {
-                await _mediator.Send(new AddBirthdayCommand(chatId, from, text), cancellationToken);
-            }
-            else if (text.StartsWith($"/{BotCommands.RemoveBirthday}"))
-            {
-                await _mediator.Send(new RemoveBirthdayCommand(chatId, from, text), cancellationToken);
-            }
-            else if (text.StartsWith($"/{BotCommands.List}"))
-            {
-                await _mediator.Send(new ListCommand(chatId, from), cancellationToken);
-            }
-            else if (text.StartsWith($"/{BotCommands.Help}"))
-            {
-                await _mediator.Send(new HelpCommand(chatId, from), cancellationToken);
+                    return;
+                }
+
+                if (text.StartsWith($"/{BotCommands.AddBirthday}"))
+                {
+                    await _mediator.Send(new AddBirthdayCommand(chatId, from, text), cancellationToken);
+                }
+                else if (text.StartsWith($"/{BotCommands.RemoveBirthday}"))
+                {
+                    await _mediator.Send(new RemoveBirthdayCommand(chatId, from, text), cancellationToken);
+                }
+                else if (text.StartsWith($"/{BotCommands.List}"))
+                {
+                    await _mediator.Send(new ListCommand(chatId, from), cancellationToken);
+                }
+                else if (text.StartsWith($"/{BotCommands.SetCongratulateLang}"))
+                {
+                    await _mediator.Send(new SetCongratulateLangCommand(chatId, from), cancellationToken);
+                }
+                else if (text.StartsWith($"/{BotCommands.Help}"))
+                {
+                    await _mediator.Send(new HelpCommand(chatId, from), cancellationToken);
+                }
             }
         }
     }

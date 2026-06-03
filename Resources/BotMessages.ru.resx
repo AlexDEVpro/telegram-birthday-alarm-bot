@@ -157,10 +157,10 @@
     <value>&lt;pre&gt;/removebirthday&lt;/pre&gt;для удаления своего ДР.</value>
   </data>
   <data name="AddBirthdayOfOtherUserAdminOnly" xml:space="preserve">
-    <value>🚫 Только админы могут добавлять ДР других пользователей.</value>
+    <value>🚫 Только владелец группы и админы бота могут добавлять ДР других пользователей.</value>
   </data>
   <data name="RemoveBirthdayOfOtherUserAdminOnly" xml:space="preserve">
-    <value>🚫 Только админы могут удалять ДР других пользователей.</value>
+    <value>🚫 Только владелец группы и админы бота могут удалять ДР других пользователей.</value>
   </data>
   <data name="AddBirthdayByUsernameFormat" xml:space="preserve">
     <value>&lt;code&gt;/addbirthday @username d MMMM yyyy&lt;/code&gt;.</value>
@@ -221,5 +221,20 @@
   </data>
   <data name="BotCommandHelpAdmin" xml:space="preserve">
     <value>Формат команд (включая команды администраторов) и подсказки</value>
+  </data>
+  <data name="SetCongratulateLangOwnerOnly" xml:space="preserve">
+    <value>🚫 Только владелец группы может устанавливать язык поздравлений.</value>
+  </data>
+  <data name="ChooseCongratulateLang" xml:space="preserve">
+    <value>🎈 Выберите язык поздравлений:</value>
+  </data>
+  <data name="UnsupportedLanguage" xml:space="preserve">
+    <value>⚠ Неподдерживаемый язык.</value>
+  </data>
+  <data name="CongratulationsLanguageChanged" xml:space="preserve">
+    <value>✅ Выбран язык поздравления: {0}.</value>
+  </data>
+  <data name="BotCommandSetCongratulateLangOwner" xml:space="preserve">
+    <value>Выбрать язык поздравлений</value>
   </data>
 </root>

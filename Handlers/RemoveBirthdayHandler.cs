@@ -1,12 +1,9 @@
 ﻿using MediatR;
 
-using Microsoft.Extensions.Options;
-
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
 using TelegramBirthdayAlarmBot.Commands;
-using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Models;
 using TelegramBirthdayAlarmBot.Services;
 
@@ -18,18 +15,14 @@ namespace TelegramBirthdayAlarmBot.Handlers
         private readonly BotPermissionService _botPermissionService;
         private readonly StorageService _storage;
 
-        private readonly long[] _adminIDs;
-
-        public RemoveBirthdayHandler(ITelegramBotClient bot,
+        public RemoveBirthdayHandler(
+            ITelegramBotClient bot,
             BotPermissionService botPermissionService,
-            StorageService storage,
-            IOptions<TelegramOptions> telegramOptions)
+            StorageService storage)
         {
             _bot = bot;
             _botPermissionService = botPermissionService;
             _storage = storage;
-
-            _adminIDs = telegramOptions.Value.AdminIDs;
         }
 
         public async Task Handle(RemoveBirthdayCommand request, CancellationToken cancellationToken)

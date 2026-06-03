@@ -1,18 +1,12 @@
-﻿using System.Globalization;
-
-using MediatR;
-
-using Microsoft.Extensions.Options;
+﻿using MediatR;
 
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 using TelegramBirthdayAlarmBot.Commands;
-using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Constants;
 using TelegramBirthdayAlarmBot.Services;
-using TelegramBirthdayAlarmBot.Services.Localization;
 
 namespace TelegramBirthdayAlarmBot.Handlers
 {
@@ -20,19 +14,16 @@ namespace TelegramBirthdayAlarmBot.Handlers
     {
         private readonly ITelegramBotClient _bot;
         private readonly PendingAddStateService _stateService;
-        private readonly UserCultureResolver _userCultureResolver;
         private readonly StorageService _storage;
 
-        private CultureInfo _culture;
-
-        public CompleteAddBirthdayHandler(ITelegramBotClient bot, PendingAddStateService stateService, UserCultureResolver userCultureResolver, StorageService storage, IOptions<BirthdayOptions> birthdayOptions)
+        public CompleteAddBirthdayHandler(
+            ITelegramBotClient bot,
+            PendingAddStateService stateService,
+            StorageService storage)
         {
             _bot = bot;
             _stateService = stateService;
-            _userCultureResolver = userCultureResolver;
             _storage = storage;
-
-            _culture = new CultureInfo(birthdayOptions.Value.DateCulture);
         }
 
         public async Task Handle(CompleteAddBirthdayCommand request, CancellationToken cancellationToken)
@@ -41,10 +32,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
             var from = request.From;
             var text = request.Text;
 
-            // Resolve user culture.
-            _culture = _userCultureResolver.Resolve(from.LanguageCode);
-
-            if (!DateTime.TryParse(text, _culture, out var date))
+            if (!DateTime.TryParse(text, out var date))
             {
                 await _bot.SendMessage(
                     chatId,
