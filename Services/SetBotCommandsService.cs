@@ -10,98 +10,125 @@ using Telegram.Bot.Types;
 using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Constants;
 
-namespace TelegramBirthdayAlarmBot.Services;
-
-internal class SetBotCommandsService : IHostedService
+namespace TelegramBirthdayAlarmBot.Services
 {
-    private readonly ITelegramBotClient _bot;
-    private readonly PermissionOptions _permissionOptions;
-
-    public SetBotCommandsService(
-        ITelegramBotClient bot,
-        IOptions<PermissionOptions> permissionOptions)
+    internal class SetBotCommandsService : IHostedService
     {
-        _bot = bot;
-        _permissionOptions = permissionOptions.Value;
-    }
+        private readonly ITelegramBotClient _bot;
+        private readonly PermissionOptions _permissionOptions;
 
-    public async Task StartAsync(
-        CancellationToken cancellationToken)
-    {
-        await RegisterDefaultCommands(cancellationToken);
+        private readonly ResourceManager _resources =
+            new(typeof(Resources.BotMessages));
 
-        if (_permissionOptions.AllowTelegramGroupAdmins)
+        public SetBotCommandsService(
+            ITelegramBotClient bot,
+            IOptions<PermissionOptions> permissionOptions)
         {
-            await RegisterTelegramAdminCommands(
-                cancellationToken);
+            _bot = bot;
+            _permissionOptions = permissionOptions.Value;
         }
-    }
 
-    public Task StopAsync(
-        CancellationToken cancellationToken)
-        => Task.CompletedTask;
+        public async Task StartAsync(CancellationToken cancellationToken)
+        {
+            foreach (var lang in SupportedLanguages.All)
+            {
+                await RegisterCommands(
+                    languageCode: lang.Code,
+                    culture: new CultureInfo(lang.Culture),
+                    isAdmin: _permissionOptions.AllowTelegramGroupAdmins,
+                    cancellationToken);
+            }
+        }
 
-    private async Task RegisterDefaultCommands(
-        CancellationToken cancellationToken)
-    {
-        var r = new ResourceManager(typeof(Resources.BotMessages));
-        var cultureEn = new CultureInfo("en-US");
-        var cultureRu = new CultureInfo("ru-RU");
+        public Task StopAsync(CancellationToken cancellationToken)
+            => Task.CompletedTask;
 
-        await _bot.SetMyCommands(
-        [
-            new() { Command = BotCommands.AddBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandAddBirthday), cultureEn)! },
-            new() { Command = BotCommands.RemoveBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandRemoveBirthday), cultureEn)! },
-            new() { Command = BotCommands.List, Description = r.GetString(nameof(Resources.BotMessages.BotCommandList), cultureEn)! },
-            new() { Command = BotCommands.Cancel, Description = r.GetString(nameof(Resources.BotMessages.BotCommandCancel), cultureEn)! },
-            new() { Command = BotCommands.Help, Description = r.GetString(nameof(Resources.BotMessages.BotCommandHelp), cultureEn)! }
-        ],
-        scope: new BotCommandScopeDefault(),
-        languageCode: "en",
-        cancellationToken: cancellationToken);
+        private async Task RegisterCommands(
+            string languageCode,
+            CultureInfo culture,
+            bool isAdmin,
+            CancellationToken cancellationToken)
+        {
+            await _bot.SetMyCommands(
+                CreateCommands(culture, isAdmin),
+                scope: isAdmin
+                    ? new BotCommandScopeAllChatAdministrators()
+                    : new BotCommandScopeDefault(),
+                languageCode: languageCode,
+                cancellationToken: cancellationToken);
+        }
 
-        await _bot.SetMyCommands(
-        [
-            new() { Command = BotCommands.AddBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandAddBirthday), cultureRu)! },
-            new() { Command = BotCommands.RemoveBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandRemoveBirthday), cultureRu)! },
-            new() { Command = BotCommands.List, Description = r.GetString(nameof(Resources.BotMessages.BotCommandList), cultureRu)! },
-            new() { Command = BotCommands.Cancel, Description = r.GetString(nameof(Resources.BotMessages.BotCommandCancel), cultureRu)! },
-            new() { Command = BotCommands.Help, Description = r.GetString(nameof(Resources.BotMessages.BotCommandHelp), cultureRu)! }
-        ],
-        scope: new BotCommandScopeDefault(),
-        languageCode: "ru",
-        cancellationToken: cancellationToken);
-    }
+        private BotCommand[] CreateCommands(
+            CultureInfo culture,
+            bool isAdmin)
+        {
+            return
+            [
+                new()
+                {
+                    Command = BotCommands.AddBirthday,
+                    Description = GetString(
+                        isAdmin
+                            ? nameof(Resources.BotMessages.BotCommandAddBirthdayAdmin)
+                            : nameof(Resources.BotMessages.BotCommandAddBirthday),
+                        culture)
+                },
 
-    private async Task RegisterTelegramAdminCommands(
-        CancellationToken cancellationToken)
-    {
-        var r = new ResourceManager(typeof(Resources.BotMessages));
-        var cultureEn = new CultureInfo("en-US");
-        var cultureRu = new CultureInfo("ru-RU");
+                new()
+                {
+                    Command = BotCommands.RemoveBirthday,
+                    Description = GetString(
+                        isAdmin
+                            ? nameof(Resources.BotMessages.BotCommandRemoveBirthdayAdmin)
+                            : nameof(Resources.BotMessages.BotCommandRemoveBirthday),
+                        culture)
+                },
 
-        await _bot.SetMyCommands(
-        [
-            new() { Command = BotCommands.AddBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandAddBirthdayAdmin), cultureEn)! },
-            new() { Command = BotCommands.RemoveBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandRemoveBirthdayAdmin), cultureEn)! },
-            new() { Command = BotCommands.List, Description = r.GetString(nameof(Resources.BotMessages.BotCommandList), cultureEn)! },
-            new() { Command = BotCommands.Cancel, Description = r.GetString(nameof(Resources.BotMessages.BotCommandCancel), cultureEn)! },
-            new() { Command = BotCommands.Help, Description = r.GetString(nameof(Resources.BotMessages.BotCommandHelpAdmin), cultureEn)! }
-        ],
-        scope: new BotCommandScopeAllChatAdministrators(),
-        languageCode: "en",
-        cancellationToken: cancellationToken);
+                new()
+                {
+                    Command = BotCommands.List,
+                    Description = GetString(
+                        nameof(Resources.BotMessages.BotCommandList),
+                        culture)
+                },
 
-        await _bot.SetMyCommands(
-        [
-            new() { Command = BotCommands.AddBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandAddBirthdayAdmin), cultureRu)! },
-            new() { Command = BotCommands.RemoveBirthday, Description = r.GetString(nameof(Resources.BotMessages.BotCommandRemoveBirthdayAdmin), cultureRu)! },
-            new() { Command = BotCommands.List, Description = r.GetString(nameof(Resources.BotMessages.BotCommandList), cultureRu)! },
-            new() { Command = BotCommands.Cancel, Description = r.GetString(nameof(Resources.BotMessages.BotCommandCancel), cultureRu)! },
-            new() { Command = BotCommands.Help, Description = r.GetString(nameof(Resources.BotMessages.BotCommandHelpAdmin), cultureRu)! }
-        ],
-        scope: new BotCommandScopeAllChatAdministrators(),
-        languageCode: "ru",
-        cancellationToken: cancellationToken);
+                new()
+                {
+                    Command = BotCommands.Cancel,
+                    Description = GetString(
+                        nameof(Resources.BotMessages.BotCommandCancel),
+                        culture)
+                },
+
+                ..(isAdmin
+                    ? new[]
+                    {
+                        new BotCommand
+                        {
+                            Command = BotCommands.SetCongratulateLang,
+                            Description = GetString(
+                                nameof(Resources.BotMessages.BotCommandSetCongratulateLangOwner),
+                                culture)
+                        }
+                    }
+                    : []),
+
+                new()
+                {
+                    Command = BotCommands.Help,
+                    Description = GetString(
+                        isAdmin
+                            ? nameof(Resources.BotMessages.BotCommandHelpAdmin)
+                            : nameof(Resources.BotMessages.BotCommandHelp),
+                        culture)
+                }
+            ];
+        }
+
+        private string GetString(string resourceName,
+            CultureInfo culture)
+        {
+            return _resources.GetString(resourceName, culture)!;
+        }
     }
 }

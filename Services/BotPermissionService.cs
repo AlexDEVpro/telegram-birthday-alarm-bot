@@ -45,7 +45,7 @@ internal class BotPermissionService
                 telegramPermissions.IsOwner
                 || (_allowTelegramGroupAdmins && telegramPermissions.IsAdmin),
 
-            BotPermission.ChangeBotSettings =>
+            BotPermission.SetCongratulateLang =>
                 telegramPermissions.IsOwner,
 
             _ => false

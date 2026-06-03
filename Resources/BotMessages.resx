@@ -157,10 +157,10 @@
     <value>&lt;pre&gt;/removebirthday&lt;/pre&gt;to remove your birthday.</value>
   </data>
   <data name="AddBirthdayOfOtherUserAdminOnly" xml:space="preserve">
-    <value>🚫 Only admins can add birthdays of other users.</value>
+    <value>🚫 Only group owner and bot admins can add birthdays of other users.</value>
   </data>
   <data name="RemoveBirthdayOfOtherUserAdminOnly" xml:space="preserve">
-    <value>🚫 Only admins can remove birthdays of other users.</value>
+    <value>🚫 Only group owner and bot admins can remove birthdays of other users.</value>
   </data>
   <data name="AddBirthdayByUsernameFormat" xml:space="preserve">
     <value>&lt;code&gt;/addbirthday @username MMMM d, yyyy&lt;/code&gt;.</value>
@@ -221,5 +221,20 @@
   </data>
   <data name="BotCommandHelpAdmin" xml:space="preserve">
     <value>Command formats (including admin commands) and tips</value>
+  </data>
+  <data name="SetCongratulateLangOwnerOnly" xml:space="preserve">
+    <value>🚫 Only group owner can set congratulate lang.</value>
+  </data>
+  <data name="ChooseCongratulateLang" xml:space="preserve">
+    <value>🎈 Choose the language for the congratulatory messages:</value>
+  </data>
+  <data name="UnsupportedLanguage" xml:space="preserve">
+    <value>⚠ Unsupported language.</value>
+  </data>
+  <data name="CongratulationsLanguageChanged" xml:space="preserve">
+    <value>✅ Congratulations language set to {0}.</value>
+  </data>
+  <data name="BotCommandSetCongratulateLangOwner" xml:space="preserve">
+    <value>Select the birthday congratulations language</value>
   </data>
 </root>

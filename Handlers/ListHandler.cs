@@ -1,44 +1,32 @@
-﻿using System.Globalization;
-using System.Text;
+﻿using System.Text;
 
 using MediatR;
-
-using Microsoft.Extensions.Options;
 
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
 using TelegramBirthdayAlarmBot.Commands;
-using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Services;
-using TelegramBirthdayAlarmBot.Services.Localization;
 
 namespace TelegramBirthdayAlarmBot.Handlers
 {
     internal class ListHandler : IRequestHandler<ListCommand>
     {
         private readonly ITelegramBotClient _bot;
-        private readonly UserCultureResolver _userCultureResolver;
         private readonly StorageService _storage;
 
-        private CultureInfo _culture;
-
-        public ListHandler(ITelegramBotClient bot, UserCultureResolver userCultureResolver, StorageService storage, IOptions<BirthdayOptions> birthdayOptions)
+        public ListHandler(
+            ITelegramBotClient bot,
+            StorageService storage)
         {
             _bot = bot;
-            _userCultureResolver = userCultureResolver;
             _storage = storage;
-
-            _culture = new CultureInfo(birthdayOptions.Value.DateCulture);
         }
 
         public async Task Handle(ListCommand request, CancellationToken cancellationToken)
         {
             var chatId = request.ChatId;
             var from = request.From;
-
-            // Resolve user culture.
-            _culture = _userCultureResolver.Resolve(from.LanguageCode);
 
             var list = _storage.GetSortedBirthdays(chatId);
             if (list.Count == 0)
@@ -56,7 +44,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
             foreach (var bs in list)
             {
                 sb.AppendLine();
-                sb.Append($"{bs.DisplayName} — {bs.Date.ToString(Resources.BotMessages.ListItemDateFormat, _culture)}");
+                sb.Append($"{bs.DisplayName} — {bs.Date.ToString(Resources.BotMessages.ListItemDateFormat)}");
             }
 
             await _bot.SendMessage(chatId,

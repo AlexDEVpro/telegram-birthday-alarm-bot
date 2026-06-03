@@ -39,6 +39,7 @@ class Program
         builder.Services.AddSingleton<PendingAddStateService>();
         builder.Services.AddSingleton<TelegramGroupUserPermissionService>();
         builder.Services.AddSingleton<BotPermissionService>();
+        builder.Services.AddSingleton<CultureContextManager>();
         builder.Services.AddSingleton<UserCultureResolver>();
 
         builder.Services.AddHostedService<SetBotCommandsService>();

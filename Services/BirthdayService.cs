@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Globalization;
+using System.Text;
 
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
@@ -17,13 +18,20 @@ namespace TelegramBirthdayAlarmBot.Services
         private readonly BotTimeProvider _botTimeProvider;
         private readonly StorageService _storage;
         private readonly BirthdayOptions _birthdayOptions;
+        private readonly CultureContextManager _cultureContextManager;
 
-        public BirthdayService(ITelegramBotClient bot, BotTimeProvider botTimeProvider, StorageService storage, IOptions<BirthdayOptions> options)
+        public BirthdayService(
+            ITelegramBotClient bot,
+            BotTimeProvider botTimeProvider,
+            StorageService storage,
+            IOptions<BirthdayOptions> options,
+            CultureContextManager cultureContextManager)
         {
             _bot = bot;
             _botTimeProvider = botTimeProvider;
             _storage = storage;
             _birthdayOptions = options.Value;
+            _cultureContextManager = cultureContextManager;
         }
 
         protected override async Task ExecuteAsync(CancellationToken ct)
@@ -67,31 +75,34 @@ namespace TelegramBirthdayAlarmBot.Services
                             mention = bs.DisplayName;
                         }
 
-                        var sb = new StringBuilder();
-                        sb.AppendFormat(Resources.BotMessages.BirthdayCongrats, mention);
-
-                        if (decision == SendDecision.SendLate)
+                        using (_cultureContextManager.Use(new CultureInfo(_storage.GetCongratulateCulture(chatId))))
                         {
-                            sb.AppendLine();
-                            sb.Append(Resources.BotMessages.LateBirthdayCongratsAppendix);
-                        }
+                            var sb = new StringBuilder();
+                            sb.AppendFormat(Resources.BotMessages.BirthdayCongrats, mention);
 
-                        try
-                        {
-                            // Congratulatory message.
-                            await _bot.SendMessage(chatId,
-                                sb.ToString(),
-                                parseMode: ParseMode.Html,
-                                disableNotification: false);
-
-                            if (!_storage.MarkCelebrated(chatId, userKey, now.Year))
+                            if (decision == SendDecision.SendLate)
                             {
-                                Console.Error.WriteLine($"Check - unable to mark celebrated chatID: {chatId}, user key: {userKey}, new celebrated year: {now.Year}.");
+                                sb.AppendLine();
+                                sb.Append(Resources.BotMessages.LateBirthdayCongratsAppendix);
                             }
-                        }
-                        catch (Exception ex)
-                        {
-                            Console.Error.WriteLine(ex);
+
+                            try
+                            {
+                                // Congratulatory message.
+                                await _bot.SendMessage(chatId,
+                                    sb.ToString(),
+                                    parseMode: ParseMode.Html,
+                                    disableNotification: false);
+
+                                if (!_storage.MarkCelebrated(chatId, userKey, now.Year))
+                                {
+                                    Console.Error.WriteLine($"Check - unable to mark celebrated chatID: {chatId}, user key: {userKey}, new celebrated year: {now.Year}.");
+                                }
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.Error.WriteLine(ex);
+                            }
                         }
 
                         break;
