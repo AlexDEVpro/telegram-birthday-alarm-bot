@@ -28,7 +28,7 @@ internal class BotPermissionService
     }
 
     public async Task<bool> HasPermissionAsync(
-        string chatId,
+        long chatId,
         long userId,
         BotPermission permission)
     {

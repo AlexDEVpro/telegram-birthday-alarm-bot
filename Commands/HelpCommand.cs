@@ -4,5 +4,7 @@ using Telegram.Bot.Types;
 
 namespace TelegramBirthdayAlarmBot.Commands
 {
-    internal record HelpCommand(string ChatId, User From) : IRequest;
+    internal record HelpCommand(
+        long ChatId,
+        User From) : IRequest;
 }

@@ -16,7 +16,7 @@ internal class TelegramGroupUserPermissionService
     }
 
     public async Task<TelegramGroupUserPermissions> GetPermissionsAsync(
-        string chatId,
+        long chatId,
         long userId)
     {
         var member = await _bot.GetChatMember(

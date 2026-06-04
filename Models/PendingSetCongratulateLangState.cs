@@ -8,6 +8,6 @@
         /// <summary>
         /// Chat ID where the set congratulate lang operation is currently in progress.
         /// </summary>
-        public required string ChatId { get; init; }
+        public required long ChatId { get; init; }
     }
 }
