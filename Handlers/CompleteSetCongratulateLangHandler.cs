@@ -13,23 +13,23 @@ namespace TelegramBirthdayAlarmBot.Handlers
     {
         private readonly ITelegramBotClient _bot;
         private readonly StorageService _storage;
-        private readonly PendingSetCongratulateLangStateService _stateService;
+        private readonly PendingSetCongratulateLangStateService _pendingSetCongratulateLangStateService;
 
         public CompleteSetCongratulateLangHandler(
             ITelegramBotClient bot,
             StorageService storage,
-            PendingSetCongratulateLangStateService stateService)
+            PendingSetCongratulateLangStateService pendingSetCongratulateLangStateService)
         {
             _bot = bot;
             _storage = storage;
-            _stateService = stateService;
+            _pendingSetCongratulateLangStateService = pendingSetCongratulateLangStateService;
         }
 
         public async Task Handle(
             CompleteSetCongratulateLangCommand request,
             CancellationToken cancellationToken)
         {
-            if (!_stateService.IsPending(request.ChatId,
+            if (!_pendingSetCongratulateLangStateService.IsPending(request.ChatId,
                     request.From.Id))
             {
                 return;
@@ -49,7 +49,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 request.ChatId,
                 request.LanguageLabel);
 
-            _stateService.Remove(request.From.Id);
+            _pendingSetCongratulateLangStateService.Remove(request.From.Id);
 
             await _bot.SendMessage(
                 request.ChatId,

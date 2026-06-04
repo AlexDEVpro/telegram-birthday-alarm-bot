@@ -12,21 +12,21 @@ namespace TelegramBirthdayAlarmBot.Handlers
         private readonly IMediator _mediator;
         private readonly UserCultureResolver _userCultureResolver;
         private readonly CultureContextManager _cultureContextManager;
-        private readonly PendingAddStateService _pendingAddStateService;
+        private readonly PendingAddBirthdayStateService _pendingAddBirthdayStateService;
         private readonly PendingSetCongratulateLangStateService _pendingSetCongratulateLangStateService;
 
         public IncomingUpdateHandler(
             IMediator mediator,
             UserCultureResolver userCultureResolver,
             CultureContextManager cultureContextManager,
-            PendingAddStateService stateService,
-            PendingSetCongratulateLangStateService setCongratulateLangStateService)
+            PendingAddBirthdayStateService pendingAddBirthdayStateService,
+            PendingSetCongratulateLangStateService pendingSetCongratulateLangStateService)
         {
             _mediator = mediator;
             _userCultureResolver = userCultureResolver;
             _cultureContextManager = cultureContextManager;
-            _pendingAddStateService = stateService;
-            _pendingSetCongratulateLangStateService = setCongratulateLangStateService;
+            _pendingAddBirthdayStateService = pendingAddBirthdayStateService;
+            _pendingSetCongratulateLangStateService = pendingSetCongratulateLangStateService;
         }
 
         public async Task Handle(IncomingUpdateCommand request, CancellationToken cancellationToken)
@@ -46,7 +46,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 }
 
                 // Add birthday interactive mode. Step 2.
-                if (_pendingAddStateService.IsPending(chatId, from.Id))
+                if (_pendingAddBirthdayStateService.IsPending(chatId, from.Id))
                 {
                     await _mediator.Send(new CompleteAddBirthdayCommand(chatId, from, text), cancellationToken);
 
