@@ -14,16 +14,16 @@ namespace TelegramBirthdayAlarmBot.Handlers
     : IRequestHandler<SetCongratulateLangCommand>
     {
         private readonly ITelegramBotClient _bot;
-        private readonly PendingSetCongratulateLangStateService _stateService;
+        private readonly PendingSetCongratulateLangStateService _pendingSetCongratulateLangStateService;
         private readonly BotPermissionService _permissionService;
 
         public SetCongratulateLangHandler(
             ITelegramBotClient bot,
-            PendingSetCongratulateLangStateService stateService,
+            PendingSetCongratulateLangStateService pendingSetCongratulateLangStateService,
             BotPermissionService permissionService)
         {
             _bot = bot;
-            _stateService = stateService;
+            _pendingSetCongratulateLangStateService = pendingSetCongratulateLangStateService;
             _permissionService = permissionService;
         }
 
@@ -47,7 +47,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 return;
             }
 
-            _stateService.Begin(chatId, from.Id);
+            _pendingSetCongratulateLangStateService.Begin(chatId, from.Id);
 
             await _bot.SendMessage(
                 chatId,

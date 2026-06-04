@@ -10,12 +10,14 @@ namespace TelegramBirthdayAlarmBot.Handlers
     internal class CancelHandler : IRequestHandler<CancelCommand>
     {
         private readonly ITelegramBotClient _bot;
-        private readonly PendingAddStateService _stateService;
+        private readonly PendingAddBirthdayStateService _pendingAddBirthdayStateService;
 
-        public CancelHandler(ITelegramBotClient bot, PendingAddStateService stateService)
+        public CancelHandler(
+            ITelegramBotClient bot,
+            PendingAddBirthdayStateService pendingAddBirthdayStateService)
         {
             _bot = bot;
-            _stateService = stateService;
+            _pendingAddBirthdayStateService = pendingAddBirthdayStateService;
         }
 
         public async Task Handle(CancelCommand request, CancellationToken cancellationToken)
@@ -23,7 +25,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
             var chatId = request.ChatId;
             var from = request.From;
 
-            if (_stateService.RemovePending(from.Id))
+            if (_pendingAddBirthdayStateService.RemovePending(from.Id))
             {
                 await _bot.SendMessage(chatId,
                     Resources.BotMessages.ActionCancelled,

@@ -5,7 +5,7 @@ namespace TelegramBirthdayAlarmBot.Services
     /// <summary>
     /// Service managing the birthday input step state for interactive command flow.
     /// </summary>
-    internal class PendingAddStateService
+    internal class PendingAddBirthdayStateService
     {
         private readonly Dictionary<long, PendingAddState> _pendingAdds = new();
 

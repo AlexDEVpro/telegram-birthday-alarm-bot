@@ -12,18 +12,18 @@ namespace TelegramBirthdayAlarmBot.Handlers
     internal class AddBirthdayHandler : IRequestHandler<AddBirthdayCommand>
     {
         private readonly ITelegramBotClient _bot;
-        private readonly PendingAddStateService _stateService;
+        private readonly PendingAddBirthdayStateService _pendingAddBirthdayStateService;
         private readonly BotPermissionService _botPermissionService;
         private readonly StorageService _storage;
 
         public AddBirthdayHandler(
             ITelegramBotClient bot,
-            PendingAddStateService stateService,
+            PendingAddBirthdayStateService pendingAddBirthdayStateService,
             BotPermissionService botPermissionService,
             StorageService storage)
         {
             _bot = bot;
-            _stateService = stateService;
+            _pendingAddBirthdayStateService = pendingAddBirthdayStateService;
             _botPermissionService = botPermissionService;
             _storage = storage;
         }
@@ -39,7 +39,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
             // Add birthday interactive mode. Step 1.
             if (parts.Length == 1)
             {
-                _stateService.BeginPending(chatId, from.Id);
+                _pendingAddBirthdayStateService.BeginPending(chatId, from.Id);
 
                 await _bot.SendMessage(
                     chatId,

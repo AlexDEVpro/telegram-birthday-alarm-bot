@@ -13,16 +13,16 @@ namespace TelegramBirthdayAlarmBot.Handlers
     internal class CompleteAddBirthdayHandler : IRequestHandler<CompleteAddBirthdayCommand>
     {
         private readonly ITelegramBotClient _bot;
-        private readonly PendingAddStateService _stateService;
+        private readonly PendingAddBirthdayStateService _pendingAddBirthdayStateService;
         private readonly StorageService _storage;
 
         public CompleteAddBirthdayHandler(
             ITelegramBotClient bot,
-            PendingAddStateService stateService,
+            PendingAddBirthdayStateService pendingAddBirthdayStateService,
             StorageService storage)
         {
             _bot = bot;
-            _stateService = stateService;
+            _pendingAddBirthdayStateService = pendingAddBirthdayStateService;
             _storage = storage;
         }
 
@@ -61,7 +61,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
                     string.Format(Resources.BotMessages.AddBirthdaySuccess, usernameOrFirstName),
                     disableNotification: true);
 
-                _stateService.RemovePending(from.Id);
+                _pendingAddBirthdayStateService.RemovePending(from.Id);
             }
             else
             {
