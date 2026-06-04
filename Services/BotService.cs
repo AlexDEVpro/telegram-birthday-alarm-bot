@@ -31,7 +31,7 @@ namespace TelegramBirthdayAlarmBot.Services
             if (update.Type != UpdateType.Message || update.Message?.Text == null)
                 return;
 
-            var chatId = update.Message.Chat.Id.ToString();
+            var chatId = update.Message.Chat.Id;
             var from = update.Message.From;
             if (from == null)
             {

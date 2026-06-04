@@ -18,11 +18,11 @@ namespace TelegramBirthdayAlarmBot.Services
             _data = Load();
         }
 
-        public List<(string ChatId, string UserKey, BirthdayState State)> GetAllBirthdaysSnapshot()
+        public List<(long ChatId, string UserKey, BirthdayState State)> GetAllBirthdaysSnapshot()
         {
             lock (_lock)
             {
-                var result = new List<(string, string, BirthdayState)>();
+                var result = new List<(long, string, BirthdayState)>();
 
                 foreach (var (chatId, chat) in _data.Chats)
                 {
@@ -37,7 +37,7 @@ namespace TelegramBirthdayAlarmBot.Services
         }
 
         public bool AddBirthday(
-            string chatId,
+            long chatId,
             long? userId,
             string usernameOrDisplayName,
             DateTime date)
@@ -84,7 +84,7 @@ namespace TelegramBirthdayAlarmBot.Services
             }
         }
 
-        public List<BirthdayState> GetSortedBirthdays(string chatId)
+        public List<BirthdayState> GetSortedBirthdays(long chatId)
         {
             lock (_lock)
             {
@@ -98,7 +98,7 @@ namespace TelegramBirthdayAlarmBot.Services
             }
         }
 
-        public bool RemoveBirthday(string chatId, long userId)
+        public bool RemoveBirthday(long chatId, long userId)
         {
             lock (_lock)
             {
@@ -119,7 +119,7 @@ namespace TelegramBirthdayAlarmBot.Services
                 return removed;
             }
         }
-        public bool RemoveBirthday(string chatId, string usernameOrDisplayName)
+        public bool RemoveBirthday(long chatId, string usernameOrDisplayName)
         {
             lock (_lock)
             {
@@ -167,7 +167,7 @@ namespace TelegramBirthdayAlarmBot.Services
             }
         }
 
-        public bool MarkCelebrated(string chatId, string userKey, int newLastCelebratedYear)
+        public bool MarkCelebrated(long chatId, string userKey, int newLastCelebratedYear)
         {
             lock (_lock)
             {
@@ -185,7 +185,7 @@ namespace TelegramBirthdayAlarmBot.Services
             }
         }
 
-        public string GetCongratulateCulture(string chatId)
+        public string GetCongratulateCulture(long chatId)
         {
             lock (_lock)
             {
@@ -195,7 +195,7 @@ namespace TelegramBirthdayAlarmBot.Services
                 return SupportedLanguages.Default.Culture;
             }
         }
-        public bool SetCongratulateCulture(string chatId, string languageLabel)
+        public bool SetCongratulateCulture(long chatId, string languageLabel)
         {
             lock (_lock)
             {

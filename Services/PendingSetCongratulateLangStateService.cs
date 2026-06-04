@@ -9,7 +9,7 @@ namespace TelegramBirthdayAlarmBot.Services
     {
         private readonly Dictionary<long, PendingSetCongratulateLangState> _states = new();
 
-        public void Begin(string chatId, long userId)
+        public void Begin(long chatId, long userId)
         {
             _states[userId] = new PendingSetCongratulateLangState
             {
@@ -17,7 +17,7 @@ namespace TelegramBirthdayAlarmBot.Services
             };
         }
 
-        public bool IsPending(string chatId, long userId)
+        public bool IsPending(long chatId, long userId)
         {
             return _states.TryGetValue(userId, out var state) && state.ChatId == chatId;
         }

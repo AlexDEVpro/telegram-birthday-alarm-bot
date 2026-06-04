@@ -8,6 +8,6 @@
         /// <summary>
         /// Chat ID where the add birthday operation is currently in progress.
         /// </summary>
-        public string ChatId { get; set; } = "";
+        public long ChatId { get; set; }
     }
 }

@@ -1,7 +1,10 @@
 ﻿using MediatR;
+
 using Telegram.Bot.Types;
 
 namespace TelegramBirthdayAlarmBot.Commands
 {
-    internal record ListCommand(string ChatId, User From) : IRequest;
+    internal record ListCommand(
+        long ChatId,
+        User From) : IRequest;
 }

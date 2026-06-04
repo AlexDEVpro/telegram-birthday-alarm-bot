@@ -8,6 +8,6 @@
         /// <summary>
         /// A dictionary mapping chat IDs to chat data.
         /// </summary>
-        public Dictionary<string, ChatData> Chats { get; set; } = new();
+        public Dictionary<long, ChatData> Chats { get; set; } = new();
     }
 }

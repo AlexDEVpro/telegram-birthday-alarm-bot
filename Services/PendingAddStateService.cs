@@ -10,13 +10,13 @@ namespace TelegramBirthdayAlarmBot.Services
         private readonly Dictionary<long, PendingAddState> _pendingAdds = new();
 
         // Start of date input waiting mode (step 1 of the addbirthday command).
-        public void BeginPending(string chatId, long userId)
+        public void BeginPending(long chatId, long userId)
         {
             _pendingAdds[userId] = new PendingAddState { ChatId = chatId };
         }
 
         // Checks whether the specified user has an active pending state in the specified chat.
-        public bool IsPending(string chatId, long userId)
+        public bool IsPending(long chatId, long userId)
         {
             return _pendingAdds.TryGetValue(userId, out var state) && state.ChatId == chatId;
         }

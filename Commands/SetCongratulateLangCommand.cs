@@ -5,6 +5,6 @@ using Telegram.Bot.Types;
 namespace TelegramBirthdayAlarmBot.Commands
 {
     internal record SetCongratulateLangCommand(
-        string ChatId,
+        long ChatId,
         User From) : IRequest;
 }
