@@ -1,6 +1,7 @@
 ﻿using MediatR;
 
 using Telegram.Bot;
+using Telegram.Bot.Types.ReplyMarkups;
 
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Constants;
@@ -49,12 +50,13 @@ namespace TelegramBirthdayAlarmBot.Handlers
                 request.ChatId,
                 request.LanguageLabel);
 
-            _pendingSetCongratulateLangStateService.Remove(request.From.Id);
-
             await _bot.SendMessage(
                 request.ChatId,
                 string.Format(Resources.BotMessages.CongratulationsLanguageChanged, request.LanguageLabel),
+                replyMarkup: new ReplyKeyboardRemove(),
                 disableNotification: true);
+
+            _pendingSetCongratulateLangStateService.Remove(request.From.Id);
         }
     }
 }
