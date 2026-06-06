@@ -1,6 +1,7 @@
 ﻿using MediatR;
 
 using Telegram.Bot;
+using Telegram.Bot.Types.ReplyMarkups;
 
 using TelegramBirthdayAlarmBot.Commands;
 using TelegramBirthdayAlarmBot.Services;
@@ -29,12 +30,14 @@ namespace TelegramBirthdayAlarmBot.Handlers
             {
                 await _bot.SendMessage(chatId,
                     Resources.BotMessages.ActionCancelled,
+                    replyMarkup: new ReplyKeyboardRemove(),
                     disableNotification: true);
             }
             else
             {
                 await _bot.SendMessage(chatId,
                     Resources.BotMessages.NoActiveActionsToCancel,
+                    replyMarkup: new ReplyKeyboardRemove(),
                     disableNotification: true);
             }
         }

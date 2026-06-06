@@ -59,6 +59,7 @@ namespace TelegramBirthdayAlarmBot.Handlers
             {
                 await _bot.SendMessage(chatId,
                     string.Format(Resources.BotMessages.AddBirthdaySuccess, usernameOrFirstName),
+                    replyMarkup: new ReplyKeyboardRemove(),
                     disableNotification: true);
 
                 _pendingAddBirthdayStateService.RemovePending(from.Id);
