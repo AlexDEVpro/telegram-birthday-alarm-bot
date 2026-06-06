@@ -1,5 +1,7 @@
-﻿using Microsoft.Extensions.Options;
-using System.Globalization;
+﻿using System.Globalization;
+
+using Microsoft.Extensions.Options;
+
 using TelegramBirthdayAlarmBot.Configuration;
 
 namespace TelegramBirthdayAlarmBot.Services.Localization;
@@ -10,7 +12,7 @@ internal class UserCultureResolver
 
     public UserCultureResolver(IOptions<BirthdayOptions> birthdayOptions)
     {
-        _defaultCulture = birthdayOptions.Value.DateCulture;
+        _defaultCulture = birthdayOptions.Value.DefaultCulture;
     }
 
     public CultureInfo Resolve(string? telegramLangCode)
