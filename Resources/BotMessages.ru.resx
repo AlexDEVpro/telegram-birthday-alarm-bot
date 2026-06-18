@@ -157,10 +157,10 @@
     <value>&lt;pre&gt;/removebirthday&lt;/pre&gt;для удаления своего ДР.</value>
   </data>
   <data name="AddBirthdayOfOtherUserAdminOnly" xml:space="preserve">
-    <value>🚫 Только владелец группы и админы бота могут добавлять ДР других пользователей.</value>
+    <value>🚫 Только владелец группы, админы бота и админы группы могут добавлять ДР других пользователей.</value>
   </data>
   <data name="RemoveBirthdayOfOtherUserAdminOnly" xml:space="preserve">
-    <value>🚫 Только владелец группы и админы бота могут удалять ДР других пользователей.</value>
+    <value>🚫 Только владелец группы, админы бота и админы группы могут удалять ДР других пользователей.</value>
   </data>
   <data name="AddBirthdayByUsernameFormat" xml:space="preserve">
     <value>&lt;code&gt;/addbirthday @username d MMMM yyyy&lt;/code&gt;.</value>
@@ -223,7 +223,7 @@
     <value>Формат команд (включая команды администраторов) и подсказки</value>
   </data>
   <data name="SetCongratulateLangOwnerOnly" xml:space="preserve">
-    <value>🚫 Только владелец группы может устанавливать язык поздравлений.</value>
+    <value>🚫 Только владелец группы может менять язык поздравлений.</value>
   </data>
   <data name="ChooseCongratulateLang" xml:space="preserve">
     <value>🎈 Выберите язык поздравлений:</value>
@@ -235,6 +235,15 @@
     <value>✅ Выбран язык поздравления: {0}.</value>
   </data>
   <data name="BotCommandSetCongratulateLangOwner" xml:space="preserve">
-    <value>Выбрать язык поздравлений</value>
+    <value>Выбрать язык поздравлений (только для владельца группы)</value>
+  </data>
+  <data name="SetCongratulateLangCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/setcongratulatelang&lt;/pre&gt;для выбора языка поздравления в текущем чате (только для владельца группы).</value>
+  </data>
+  <data name="RemoveBirthdayOfOtherUserOwnerOnly" xml:space="preserve">
+    <value>🚫 Только владелец группы и админы бота могут удалять ДР других пользователей.</value>
+  </data>
+  <data name="AddBirthdayOfOtherUserOwnerOnly" xml:space="preserve">
+    <value>🚫 Только владелец группы и админы бота могут добавлять ДР других пользователей.</value>
   </data>
 </root>

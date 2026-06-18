@@ -35,6 +35,9 @@ internal class HelpHandler : IRequestHandler<HelpCommand>
         bool canManageOtherBirthdays = await _botPermissionService.HasPermissionAsync(chatId,
                     from.Id,
                     BotPermission.ManageOtherBirthdays);
+        bool canSetCongratulateLang = await _botPermissionService.HasPermissionAsync(chatId,
+                    from.Id,
+                    BotPermission.SetCongratulateLang);
 
         var sb = new StringBuilder();
         sb.AppendLine(Resources.BotMessages.HelpMessageTitle);
@@ -58,6 +61,12 @@ internal class HelpHandler : IRequestHandler<HelpCommand>
         sb.AppendLine(Resources.BotMessages.ListCommandHelp);
         sb.AppendLine();
         sb.Append(Resources.BotMessages.CancelCommandHelp);
+        // Owner section.
+        if (canSetCongratulateLang)
+        {
+            sb.AppendLine();
+            sb.Append(Resources.BotMessages.SetCongratulateLangCommandHelp);
+        }
 
         await _bot.SendMessage(chatId,
             sb.ToString(),

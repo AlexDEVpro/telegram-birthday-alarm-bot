@@ -27,6 +27,8 @@ internal class BotPermissionService
             permissionOptions.Value.AllowTelegramGroupAdmins;
     }
 
+    public bool AllowTelegramGroupAdmins => _allowTelegramGroupAdmins;
+
     public async Task<bool> HasPermissionAsync(
         long chatId,
         long userId,

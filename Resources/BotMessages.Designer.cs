@@ -88,7 +88,7 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 🚫 Only group owner and bot admins can add birthdays of other users..
+        ///   Looks up a localized string similar to 🚫 Only group owner, bot admins and group admins can add birthdays of other users..
         /// </summary>
         internal static string AddBirthdayOfOtherUserAdminOnly {
             get {
@@ -102,6 +102,15 @@ namespace TelegramBirthdayAlarmBot.Resources {
         internal static string AddbirthdayOfOtherUserCommandHelp {
             get {
                 return ResourceManager.GetString("AddbirthdayOfOtherUserCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 🚫 Only group owner and bot admins can add birthdays of other users..
+        /// </summary>
+        internal static string AddBirthdayOfOtherUserOwnerOnly {
+            get {
+                return ResourceManager.GetString("AddBirthdayOfOtherUserOwnerOnly", resourceCulture);
             }
         }
         
@@ -223,7 +232,7 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Select the birthday congratulations language.
+        ///   Looks up a localized string similar to Select the birthday congratulations language (group owner only).
         /// </summary>
         internal static string BotCommandSetCongratulateLangOwner {
             get {
@@ -376,7 +385,7 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 🚫 Only group owner and bot admins can remove birthdays of other users..
+        ///   Looks up a localized string similar to 🚫 Only group owner, bot admins and group admins can remove birthdays of other users..
         /// </summary>
         internal static string RemoveBirthdayOfOtherUserAdminOnly {
             get {
@@ -394,6 +403,15 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 🚫 Only group owner and bot admins can remove birthdays of other users..
+        /// </summary>
+        internal static string RemoveBirthdayOfOtherUserOwnerOnly {
+            get {
+                return ResourceManager.GetString("RemoveBirthdayOfOtherUserOwnerOnly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 🗑 Birthday for {0} removed..
         /// </summary>
         internal static string RemoveBirthdaySuccess {
@@ -403,7 +421,16 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 🚫 Only group owner can set congratulate lang..
+        ///   Looks up a localized string similar to &lt;pre&gt;/setcongratulatelang&lt;/pre&gt;to choose the congratulation message language for the current chat (group owner only)..
+        /// </summary>
+        internal static string SetCongratulateLangCommandHelp {
+            get {
+                return ResourceManager.GetString("SetCongratulateLangCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 🚫 Only group owner can change the congratulation language..
         /// </summary>
         internal static string SetCongratulateLangOwnerOnly {
             get {

@@ -47,13 +47,15 @@ internal class RemoveBirthdayHandler : IRequestHandler<RemoveBirthdayCommand>
             var input = parts[1].Trim();
             if (input.StartsWith("@"))
             {
-                // Admin section.
+                // Admin/owner section.
                 if (!await _botPermissionService.HasPermissionAsync(chatId,
                     from.Id,
                     BotPermission.ManageOtherBirthdays))
                 {
                     await _bot.SendMessage(chatId,
-                        Resources.BotMessages.RemoveBirthdayOfOtherUserAdminOnly,
+                        _botPermissionService.AllowTelegramGroupAdmins
+                            ? Resources.BotMessages.RemoveBirthdayOfOtherUserAdminOnly
+                            : Resources.BotMessages.RemoveBirthdayOfOtherUserOwnerOnly,
                         disableNotification: true);
 
                     return;
