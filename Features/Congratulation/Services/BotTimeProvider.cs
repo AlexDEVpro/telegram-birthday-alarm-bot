@@ -2,32 +2,31 @@
 
 using TelegramBirthdayAlarmBot.Configuration;
 
-namespace TelegramBirthdayAlarmBot.Features.Congratulation.Services
+namespace TelegramBirthdayAlarmBot.Features.Congratulation.Services;
+
+internal class BotTimeProvider
 {
-    internal class BotTimeProvider
+    private readonly TimeZoneInfo _botTimeZone;
+
+    public BotTimeProvider(IOptions<BirthdayOptions> birthdayOptions)
     {
-        private readonly TimeZoneInfo _botTimeZone;
+        _botTimeZone = ResolveTimeZone(birthdayOptions.Value.TimeZone);
+    }
 
-        public BotTimeProvider(IOptions<BirthdayOptions> birthdayOptions)
+    public DateTime Now => TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _botTimeZone);
+
+    private static TimeZoneInfo ResolveTimeZone(string? id)
+    {
+        if (string.IsNullOrWhiteSpace(id))
+            return TimeZoneInfo.Utc;
+
+        try
         {
-            _botTimeZone = ResolveTimeZone(birthdayOptions.Value.TimeZone);
+            return TimeZoneInfo.FindSystemTimeZoneById(id);
         }
-
-        public DateTime Now => TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, _botTimeZone);
-
-        private static TimeZoneInfo ResolveTimeZone(string? id)
+        catch
         {
-            if (string.IsNullOrWhiteSpace(id))
-                return TimeZoneInfo.Utc;
-
-            try
-            {
-                return TimeZoneInfo.FindSystemTimeZoneById(id);
-            }
-            catch
-            {
-                return TimeZoneInfo.Utc;
-            }
+            return TimeZoneInfo.Utc;
         }
     }
 }

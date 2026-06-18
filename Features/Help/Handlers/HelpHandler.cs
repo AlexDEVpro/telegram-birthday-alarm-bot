@@ -12,57 +12,56 @@ using TelegramBirthdayAlarmBot.Features.Help.Commands;
 using TelegramBirthdayAlarmBot.Infrastructure.Authorization.Models;
 using TelegramBirthdayAlarmBot.Infrastructure.Authorization.Services;
 
-namespace TelegramBirthdayAlarmBot.Features.Help.Handlers
+namespace TelegramBirthdayAlarmBot.Features.Help.Handlers;
+
+internal class HelpHandler : IRequestHandler<HelpCommand>
 {
-    internal class HelpHandler : IRequestHandler<HelpCommand>
+    private readonly ITelegramBotClient _bot;
+    private readonly BotPermissionService _botPermissionService;
+
+    public HelpHandler(ITelegramBotClient bot,
+        BotPermissionService botPermissionService,
+        IOptions<TelegramOptions> telegramOptions)
     {
-        private readonly ITelegramBotClient _bot;
-        private readonly BotPermissionService _botPermissionService;
+        _bot = bot;
+        _botPermissionService = botPermissionService;
+    }
 
-        public HelpHandler(ITelegramBotClient bot,
-            BotPermissionService botPermissionService,
-            IOptions<TelegramOptions> telegramOptions)
+    public async Task Handle(HelpCommand request, CancellationToken cancellationToken)
+    {
+        var chatId = request.ChatId;
+        var from = request.From;
+
+        bool canManageOtherBirthdays = await _botPermissionService.HasPermissionAsync(chatId,
+                    from.Id,
+                    BotPermission.ManageOtherBirthdays);
+
+        var sb = new StringBuilder();
+        sb.AppendLine(Resources.BotMessages.HelpMessageTitle);
+        sb.AppendLine();
+        sb.AppendLine(Resources.BotMessages.AddbirthdayCommandHelp);
+        sb.AppendLine();
+        // Admin section.
+        if (canManageOtherBirthdays)
         {
-            _bot = bot;
-            _botPermissionService = botPermissionService;
+            sb.AppendLine(Resources.BotMessages.AddbirthdayOfOtherUserCommandHelp);
+            sb.AppendLine();
         }
-
-        public async Task Handle(HelpCommand request, CancellationToken cancellationToken)
+        sb.AppendLine(Resources.BotMessages.RemovebirthdayCommandHelp);
+        sb.AppendLine();
+        // Admin section.
+        if (canManageOtherBirthdays)
         {
-            var chatId = request.ChatId;
-            var from = request.From;
-
-            bool canManageOtherBirthdays = await _botPermissionService.HasPermissionAsync(chatId,
-                        from.Id,
-                        BotPermission.ManageOtherBirthdays);
-
-            var sb = new StringBuilder();
-            sb.AppendLine(Resources.BotMessages.HelpMessageTitle);
+            sb.AppendLine(Resources.BotMessages.RemovebirthdayOfOtherUserCommandHelp);
             sb.AppendLine();
-            sb.AppendLine(Resources.BotMessages.AddbirthdayCommandHelp);
-            sb.AppendLine();
-            // Admin section.
-            if (canManageOtherBirthdays)
-            {
-                sb.AppendLine(Resources.BotMessages.AddbirthdayOfOtherUserCommandHelp);
-                sb.AppendLine();
-            }
-            sb.AppendLine(Resources.BotMessages.RemovebirthdayCommandHelp);
-            sb.AppendLine();
-            // Admin section.
-            if (canManageOtherBirthdays)
-            {
-                sb.AppendLine(Resources.BotMessages.RemovebirthdayOfOtherUserCommandHelp);
-                sb.AppendLine();
-            }
-            sb.AppendLine(Resources.BotMessages.ListCommandHelp);
-            sb.AppendLine();
-            sb.Append(Resources.BotMessages.CancelCommandHelp);
-
-            await _bot.SendMessage(chatId,
-                sb.ToString(),
-                ParseMode.Html,
-                disableNotification: true);
         }
+        sb.AppendLine(Resources.BotMessages.ListCommandHelp);
+        sb.AppendLine();
+        sb.Append(Resources.BotMessages.CancelCommandHelp);
+
+        await _bot.SendMessage(chatId,
+            sb.ToString(),
+            ParseMode.Html,
+            disableNotification: true);
     }
 }

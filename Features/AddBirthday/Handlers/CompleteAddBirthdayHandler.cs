@@ -9,68 +9,67 @@ using TelegramBirthdayAlarmBot.Features.AddBirthday.Commands;
 using TelegramBirthdayAlarmBot.Features.AddBirthday.Services;
 using TelegramBirthdayAlarmBot.Infrastructure.Persistence.Services;
 
-namespace TelegramBirthdayAlarmBot.Features.AddBirthday.Handlers
-{
-    internal class CompleteAddBirthdayHandler : IRequestHandler<CompleteAddBirthdayCommand>
-    {
-        private readonly ITelegramBotClient _bot;
-        private readonly PendingAddBirthdayStateService _pendingAddBirthdayStateService;
-        private readonly StorageService _storage;
+namespace TelegramBirthdayAlarmBot.Features.AddBirthday.Handlers;
 
-        public CompleteAddBirthdayHandler(
-            ITelegramBotClient bot,
-            PendingAddBirthdayStateService pendingAddBirthdayStateService,
-            StorageService storage)
+internal class CompleteAddBirthdayHandler : IRequestHandler<CompleteAddBirthdayCommand>
+{
+    private readonly ITelegramBotClient _bot;
+    private readonly PendingAddBirthdayStateService _pendingAddBirthdayStateService;
+    private readonly StorageService _storage;
+
+    public CompleteAddBirthdayHandler(
+        ITelegramBotClient bot,
+        PendingAddBirthdayStateService pendingAddBirthdayStateService,
+        StorageService storage)
+    {
+        _bot = bot;
+        _pendingAddBirthdayStateService = pendingAddBirthdayStateService;
+        _storage = storage;
+    }
+
+    public async Task Handle(CompleteAddBirthdayCommand request, CancellationToken cancellationToken)
+    {
+        var chatId = request.ChatId;
+        var from = request.From;
+        var text = request.Text;
+
+        if (!DateTime.TryParse(text, out var date))
         {
-            _bot = bot;
-            _pendingAddBirthdayStateService = pendingAddBirthdayStateService;
-            _storage = storage;
+            await _bot.SendMessage(
+                chatId,
+                $"{Resources.BotMessages.InvalidDateWarning}{Environment.NewLine}{Resources.BotMessages.AddBirthdayStep2InvalidDateAppendix}",
+                ParseMode.Html,
+                replyMarkup: new ReplyKeyboardMarkup(new[]
+                {
+                    new KeyboardButton[] { BotCommands.Cancel }
+                })
+                {
+                    ResizeKeyboard = true,
+                    OneTimeKeyboard = true
+                },
+                disableNotification: true
+            );
+
+            return;
         }
 
-        public async Task Handle(CompleteAddBirthdayCommand request, CancellationToken cancellationToken)
+        var usernameOrFirstName = from.Username != null ? "@" + from.Username : from.FirstName;
+
+        bool added = _storage.AddBirthday(chatId, from.Id, usernameOrFirstName, date);
+        if (added)
         {
-            var chatId = request.ChatId;
-            var from = request.From;
-            var text = request.Text;
+            await _bot.SendMessage(chatId,
+                string.Format(Resources.BotMessages.AddBirthdaySuccess, usernameOrFirstName),
+                replyMarkup: new ReplyKeyboardRemove(),
+                disableNotification: true);
 
-            if (!DateTime.TryParse(text, out var date))
-            {
-                await _bot.SendMessage(
-                    chatId,
-                    $"{Resources.BotMessages.InvalidDateWarning}{Environment.NewLine}{Resources.BotMessages.AddBirthdayStep2InvalidDateAppendix}",
-                    ParseMode.Html,
-                    replyMarkup: new ReplyKeyboardMarkup(new[]
-                    {
-                        new KeyboardButton[] { BotCommands.Cancel }
-                    })
-                    {
-                        ResizeKeyboard = true,
-                        OneTimeKeyboard = true
-                    },
-                    disableNotification: true
-                );
-
-                return;
-            }
-
-            var usernameOrFirstName = from.Username != null ? "@" + from.Username : from.FirstName;
-
-            bool added = _storage.AddBirthday(chatId, from.Id, usernameOrFirstName, date);
-            if (added)
-            {
-                await _bot.SendMessage(chatId,
-                    string.Format(Resources.BotMessages.AddBirthdaySuccess, usernameOrFirstName),
-                    replyMarkup: new ReplyKeyboardRemove(),
-                    disableNotification: true);
-
-                _pendingAddBirthdayStateService.RemovePending(from.Id);
-            }
-            else
-            {
-                await _bot.SendMessage(chatId,
-                    Resources.BotMessages.DuplicatedUserMessage,
-                    disableNotification: true);
-            }
+            _pendingAddBirthdayStateService.RemovePending(from.Id);
+        }
+        else
+        {
+            await _bot.SendMessage(chatId,
+                Resources.BotMessages.DuplicatedUserMessage,
+                disableNotification: true);
         }
     }
 }
