@@ -1,4 +1,4 @@
-﻿using TelegramBirthdayAlarmBot.Models;
+﻿using TelegramBirthdayAlarmBot.Infrastructure.Localization.Models;
 
 namespace TelegramBirthdayAlarmBot.Constants
 {
