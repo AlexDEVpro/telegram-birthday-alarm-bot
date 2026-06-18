@@ -2,10 +2,9 @@
 
 using Telegram.Bot.Types;
 
-namespace TelegramBirthdayAlarmBot.Features.RemoveBirthday.Commands
-{
-    internal record RemoveBirthdayCommand(
-        long ChatId,
-        User From,
-        string Text) : IRequest;
-}
+namespace TelegramBirthdayAlarmBot.Features.RemoveBirthday.Commands;
+
+internal record RemoveBirthdayCommand(
+    long ChatId,
+    User From,
+    string Text) : IRequest;

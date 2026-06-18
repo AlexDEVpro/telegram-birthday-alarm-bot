@@ -1,20 +1,19 @@
-﻿namespace TelegramBirthdayAlarmBot.Features.Congratulation.Models
+﻿namespace TelegramBirthdayAlarmBot.Features.Congratulation.Models;
+
+/// <summary>
+/// Represents the outcome of evaluating whether a birthday notification should be sent
+/// including successful send cases and various skip reasons.
+/// </summary>
+internal enum SendDecision
 {
-    /// <summary>
-    /// Represents the outcome of evaluating whether a birthday notification should be sent
-    /// including successful send cases and various skip reasons.
-    /// </summary>
-    internal enum SendDecision
-    {
-        SendNormal,
-        SendLate,
+    SendNormal,
+    SendLate,
 
-        SkipAlreadySent,
+    SkipAlreadySent,
 
-        SkipTooOld,
+    SkipTooOld,
 
-        SkipLateTooEarly,
-        SkipTodayTooEarly,
-        SkipTooEarly
-    }
+    SkipLateTooEarly,
+    SkipTodayTooEarly,
+    SkipTooEarly
 }

@@ -6,40 +6,39 @@ using Telegram.Bot.Types.ReplyMarkups;
 using TelegramBirthdayAlarmBot.Features.AddBirthday.Services;
 using TelegramBirthdayAlarmBot.Features.Cancel.Commands;
 
-namespace TelegramBirthdayAlarmBot.Features.Cancel.Handlers
+namespace TelegramBirthdayAlarmBot.Features.Cancel.Handlers;
+
+internal class CancelHandler : IRequestHandler<CancelCommand>
 {
-    internal class CancelHandler : IRequestHandler<CancelCommand>
+    private readonly ITelegramBotClient _bot;
+    private readonly PendingAddBirthdayStateService _pendingAddBirthdayStateService;
+
+    public CancelHandler(
+        ITelegramBotClient bot,
+        PendingAddBirthdayStateService pendingAddBirthdayStateService)
     {
-        private readonly ITelegramBotClient _bot;
-        private readonly PendingAddBirthdayStateService _pendingAddBirthdayStateService;
+        _bot = bot;
+        _pendingAddBirthdayStateService = pendingAddBirthdayStateService;
+    }
 
-        public CancelHandler(
-            ITelegramBotClient bot,
-            PendingAddBirthdayStateService pendingAddBirthdayStateService)
+    public async Task Handle(CancelCommand request, CancellationToken cancellationToken)
+    {
+        var chatId = request.ChatId;
+        var from = request.From;
+
+        if (_pendingAddBirthdayStateService.RemovePending(from.Id))
         {
-            _bot = bot;
-            _pendingAddBirthdayStateService = pendingAddBirthdayStateService;
+            await _bot.SendMessage(chatId,
+                Resources.BotMessages.ActionCancelled,
+                replyMarkup: new ReplyKeyboardRemove(),
+                disableNotification: true);
         }
-
-        public async Task Handle(CancelCommand request, CancellationToken cancellationToken)
+        else
         {
-            var chatId = request.ChatId;
-            var from = request.From;
-
-            if (_pendingAddBirthdayStateService.RemovePending(from.Id))
-            {
-                await _bot.SendMessage(chatId,
-                    Resources.BotMessages.ActionCancelled,
-                    replyMarkup: new ReplyKeyboardRemove(),
-                    disableNotification: true);
-            }
-            else
-            {
-                await _bot.SendMessage(chatId,
-                    Resources.BotMessages.NoActiveActionsToCancel,
-                    replyMarkup: new ReplyKeyboardRemove(),
-                    disableNotification: true);
-            }
+            await _bot.SendMessage(chatId,
+                Resources.BotMessages.NoActiveActionsToCancel,
+                replyMarkup: new ReplyKeyboardRemove(),
+                disableNotification: true);
         }
     }
 }

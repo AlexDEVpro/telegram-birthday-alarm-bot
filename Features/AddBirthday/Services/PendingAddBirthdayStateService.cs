@@ -1,30 +1,29 @@
 ﻿using TelegramBirthdayAlarmBot.Features.AddBirthday.Models;
 
-namespace TelegramBirthdayAlarmBot.Features.AddBirthday.Services
+namespace TelegramBirthdayAlarmBot.Features.AddBirthday.Services;
+
+/// <summary>
+/// Service managing the birthday input step state for interactive command flow.
+/// </summary>
+internal class PendingAddBirthdayStateService
 {
-    /// <summary>
-    /// Service managing the birthday input step state for interactive command flow.
-    /// </summary>
-    internal class PendingAddBirthdayStateService
+    private readonly Dictionary<long, PendingAddState> _pendingAdds = new();
+
+    // Start of date input waiting mode (step 1 of the addbirthday command).
+    public void BeginPending(long chatId, long userId)
     {
-        private readonly Dictionary<long, PendingAddState> _pendingAdds = new();
+        _pendingAdds[userId] = new PendingAddState { ChatId = chatId };
+    }
 
-        // Start of date input waiting mode (step 1 of the addbirthday command).
-        public void BeginPending(long chatId, long userId)
-        {
-            _pendingAdds[userId] = new PendingAddState { ChatId = chatId };
-        }
+    // Checks whether the specified user has an active pending state in the specified chat.
+    public bool IsPending(long chatId, long userId)
+    {
+        return _pendingAdds.TryGetValue(userId, out var state) && state.ChatId == chatId;
+    }
 
-        // Checks whether the specified user has an active pending state in the specified chat.
-        public bool IsPending(long chatId, long userId)
-        {
-            return _pendingAdds.TryGetValue(userId, out var state) && state.ChatId == chatId;
-        }
-
-        // Remove the waiting state.
-        public bool RemovePending(long userId)
-        {
-            return _pendingAdds.Remove(userId);
-        }
+    // Remove the waiting state.
+    public bool RemovePending(long userId)
+    {
+        return _pendingAdds.Remove(userId);
     }
 }
