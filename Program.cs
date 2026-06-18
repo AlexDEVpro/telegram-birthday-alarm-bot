@@ -51,6 +51,8 @@ class Program
         builder.Services.AddHostedService<SetBotCommandsService>();
         builder.Services.AddHostedService<BirthdayService>();
 
+        builder.Services.AddScoped<TelegramPermissionCache>();
+
         builder.Services.AddMediatR(cfg =>
         {
             cfg.RegisterServicesFromAssembly(typeof(Program).Assembly);

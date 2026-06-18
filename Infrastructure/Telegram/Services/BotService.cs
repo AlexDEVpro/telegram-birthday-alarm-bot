@@ -1,5 +1,7 @@
 ﻿using MediatR;
 
+using Microsoft.Extensions.DependencyInjection;
+
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -11,15 +13,19 @@ namespace TelegramBirthdayAlarmBot.Infrastructure.Telegram.Services;
 
 internal class BotService
 {
-    private readonly IMediator _mediator;
     private readonly ITelegramBotClient _bot;
     private readonly StorageService _storage;
+    private readonly IServiceScopeFactory _scopeFactory;
 
-    public BotService(IMediator mediator, ITelegramBotClient bot, StorageService storage)
+    public BotService(
+        IMediator mediator,
+        ITelegramBotClient bot,
+        StorageService storage,
+        IServiceScopeFactory scopeFactory)
     {
-        _mediator = mediator;
         _bot = bot;
         _storage = storage;
+        _scopeFactory = scopeFactory;
     }
 
     public void Start()
@@ -52,7 +58,9 @@ internal class BotService
         }
 
         // Pass message to MediatR.
-        await _mediator.Send(new IncomingUpdateCommand(chatId, from, text), token);
+        using var scope = _scopeFactory.CreateScope();
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+        await mediator.Send(new IncomingUpdateCommand(chatId, from, text), token);
     }
 
     private Task HandleError(ITelegramBotClient client, Exception ex, CancellationToken token)
