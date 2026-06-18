@@ -5,6 +5,7 @@ using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 using TelegramBirthdayAlarmBot.Infrastructure.Persistence.Services;
+using TelegramBirthdayAlarmBot.Infrastructure.Telegram.Commands;
 
 namespace TelegramBirthdayAlarmBot.Infrastructure.Telegram.Services;
 

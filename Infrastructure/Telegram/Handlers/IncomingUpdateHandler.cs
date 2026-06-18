@@ -1,7 +1,13 @@
 ﻿using MediatR;
 
 using TelegramBirthdayAlarmBot.Constants;
+using TelegramBirthdayAlarmBot.Features.AddBirthday.Commands;
 using TelegramBirthdayAlarmBot.Features.AddBirthday.Services;
+using TelegramBirthdayAlarmBot.Features.Cancel.Commands;
+using TelegramBirthdayAlarmBot.Features.Help.Commands;
+using TelegramBirthdayAlarmBot.Features.ListBirthdays.Commands;
+using TelegramBirthdayAlarmBot.Features.RemoveBirthday.Commands;
+using TelegramBirthdayAlarmBot.Features.SetCongratulateLang.Commands;
 using TelegramBirthdayAlarmBot.Features.SetCongratulateLang.Services;
 using TelegramBirthdayAlarmBot.Infrastructure.Localization.Services;
 using TelegramBirthdayAlarmBot.Infrastructure.Telegram.Commands;
