@@ -6,8 +6,13 @@ using Microsoft.Extensions.Options;
 using Telegram.Bot;
 
 using TelegramBirthdayAlarmBot.Configuration;
-using TelegramBirthdayAlarmBot.Services;
-using TelegramBirthdayAlarmBot.Services.Localization;
+using TelegramBirthdayAlarmBot.Features.AddBirthday.Services;
+using TelegramBirthdayAlarmBot.Features.Congratulation.Services;
+using TelegramBirthdayAlarmBot.Features.SetCongratulateLang.Services;
+using TelegramBirthdayAlarmBot.Infrastructure.Authorization.Services;
+using TelegramBirthdayAlarmBot.Infrastructure.Localization.Services;
+using TelegramBirthdayAlarmBot.Infrastructure.Persistence.Services;
+using TelegramBirthdayAlarmBot.Infrastructure.Telegram.Services;
 
 class Program
 {
