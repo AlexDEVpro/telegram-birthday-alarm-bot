@@ -88,7 +88,7 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 🚫 Only group owner and bot admins can add birthdays of other users..
+        ///   Looks up a localized string similar to 🚫 Only group owner, bot admins and group admins can add birthdays of other users..
         /// </summary>
         internal static string AddBirthdayOfOtherUserAdminOnly {
             get {
@@ -102,6 +102,15 @@ namespace TelegramBirthdayAlarmBot.Resources {
         internal static string AddbirthdayOfOtherUserCommandHelp {
             get {
                 return ResourceManager.GetString("AddbirthdayOfOtherUserCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 🚫 Only group owner and bot admins can add birthdays of other users..
+        /// </summary>
+        internal static string AddBirthdayOfOtherUserOwnerOnly {
+            get {
+                return ResourceManager.GetString("AddBirthdayOfOtherUserOwnerOnly", resourceCulture);
             }
         }
         
@@ -376,7 +385,7 @@ namespace TelegramBirthdayAlarmBot.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to 🚫 Only group owner and bot admins can remove birthdays of other users..
+        ///   Looks up a localized string similar to 🚫 Only group owner, bot admins and group admins can remove birthdays of other users..
         /// </summary>
         internal static string RemoveBirthdayOfOtherUserAdminOnly {
             get {
@@ -390,6 +399,15 @@ namespace TelegramBirthdayAlarmBot.Resources {
         internal static string RemovebirthdayOfOtherUserCommandHelp {
             get {
                 return ResourceManager.GetString("RemovebirthdayOfOtherUserCommandHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 🚫 Only group owner and bot admins can remove birthdays of other users..
+        /// </summary>
+        internal static string RemoveBirthdayOfOtherUserOwnerOnly {
+            get {
+                return ResourceManager.GetString("RemoveBirthdayOfOtherUserOwnerOnly", resourceCulture);
             }
         }
         

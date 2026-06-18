@@ -61,13 +61,15 @@ internal class AddBirthdayHandler : IRequestHandler<AddBirthdayCommand>
 
         if (input.StartsWith("@"))
         {
-            // Admin section.
+            // Admin/owner section.
             if (!await _botPermissionService.HasPermissionAsync(chatId,
                 from.Id,
                 BotPermission.ManageOtherBirthdays))
             {
                 await _bot.SendMessage(chatId,
-                    Resources.BotMessages.AddBirthdayOfOtherUserAdminOnly,
+                    _botPermissionService.AllowTelegramGroupAdmins
+                        ? Resources.BotMessages.AddBirthdayOfOtherUserAdminOnly
+                        : Resources.BotMessages.AddBirthdayOfOtherUserOwnerOnly,
                     disableNotification: true);
 
                 return;

@@ -2,12 +2,10 @@
 using System.Resources;
 
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Options;
 
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
-using TelegramBirthdayAlarmBot.Configuration;
 using TelegramBirthdayAlarmBot.Constants;
 
 namespace TelegramBirthdayAlarmBot.Infrastructure.Telegram.Services;
@@ -15,17 +13,14 @@ namespace TelegramBirthdayAlarmBot.Infrastructure.Telegram.Services;
 internal class SetBotCommandsService : IHostedService
 {
     private readonly ITelegramBotClient _bot;
-    private readonly PermissionOptions _permissionOptions;
 
     private readonly ResourceManager _resources =
         new(typeof(Resources.BotMessages));
 
     public SetBotCommandsService(
-        ITelegramBotClient bot,
-        IOptions<PermissionOptions> permissionOptions)
+        ITelegramBotClient bot)
     {
         _bot = bot;
-        _permissionOptions = permissionOptions.Value;
     }
 
     public async Task StartAsync(CancellationToken cancellationToken)
@@ -35,7 +30,6 @@ internal class SetBotCommandsService : IHostedService
             await RegisterCommands(
                 lang.Code,
                 new CultureInfo(lang.Culture),
-                _permissionOptions.AllowTelegramGroupAdmins,
                 cancellationToken);
         }
     }
@@ -46,14 +40,17 @@ internal class SetBotCommandsService : IHostedService
     private async Task RegisterCommands(
         string languageCode,
         CultureInfo culture,
-        bool isAdmin,
         CancellationToken cancellationToken)
     {
         await _bot.SetMyCommands(
-            CreateCommands(culture, isAdmin),
-            scope: isAdmin
-                ? new BotCommandScopeAllChatAdministrators()
-                : new BotCommandScopeDefault(),
+            CreateCommands(culture, true),
+            scope: new BotCommandScopeAllChatAdministrators(),
+            languageCode: languageCode,
+            cancellationToken: cancellationToken);
+
+        await _bot.SetMyCommands(
+            CreateCommands(culture, false),
+            scope: new BotCommandScopeDefault(),
             languageCode: languageCode,
             cancellationToken: cancellationToken);
     }
