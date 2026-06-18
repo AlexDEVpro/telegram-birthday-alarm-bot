@@ -100,18 +100,13 @@ internal class SetBotCommandsService : IHostedService
                     culture)
             },
 
-            ..(isAdmin
-                ? new[]
-                {
-                    new BotCommand
-                    {
-                        Command = BotCommands.SetCongratulateLang,
-                        Description = GetString(
-                            nameof(Resources.BotMessages.BotCommandSetCongratulateLangOwner),
-                            culture)
-                    }
-                }
-                : []),
+            new()
+            {
+                Command = BotCommands.SetCongratulateLang,
+                Description = GetString(
+                    nameof(Resources.BotMessages.BotCommandSetCongratulateLangOwner),
+                    culture)
+            },
 
             new()
             {

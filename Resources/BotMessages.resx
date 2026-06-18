@@ -223,7 +223,7 @@
     <value>Command formats (including admin commands) and tips</value>
   </data>
   <data name="SetCongratulateLangOwnerOnly" xml:space="preserve">
-    <value>🚫 Only group owner can set congratulate lang.</value>
+    <value>🚫 Only group owner can change the congratulation language.</value>
   </data>
   <data name="ChooseCongratulateLang" xml:space="preserve">
     <value>🎈 Choose the language for the congratulatory messages:</value>
@@ -235,6 +235,9 @@
     <value>✅ Congratulations language set to: {0}.</value>
   </data>
   <data name="BotCommandSetCongratulateLangOwner" xml:space="preserve">
-    <value>Select the birthday congratulations language</value>
+    <value>Select the birthday congratulations language (group owner only)</value>
+  </data>
+  <data name="SetCongratulateLangCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/setcongratulatelang&lt;/pre&gt;to choose the congratulation message language for the current chat (group owner only).</value>
   </data>
 </root>

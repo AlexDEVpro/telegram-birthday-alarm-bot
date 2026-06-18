@@ -223,7 +223,7 @@
     <value>Формат команд (включая команды администраторов) и подсказки</value>
   </data>
   <data name="SetCongratulateLangOwnerOnly" xml:space="preserve">
-    <value>🚫 Только владелец группы может устанавливать язык поздравлений.</value>
+    <value>🚫 Только владелец группы может менять язык поздравлений.</value>
   </data>
   <data name="ChooseCongratulateLang" xml:space="preserve">
     <value>🎈 Выберите язык поздравлений:</value>
@@ -235,6 +235,9 @@
     <value>✅ Выбран язык поздравления: {0}.</value>
   </data>
   <data name="BotCommandSetCongratulateLangOwner" xml:space="preserve">
-    <value>Выбрать язык поздравлений</value>
+    <value>Выбрать язык поздравлений (только для владельца группы)</value>
+  </data>
+  <data name="SetCongratulateLangCommandHelp" xml:space="preserve">
+    <value>&lt;pre&gt;/setcongratulatelang&lt;/pre&gt;для выбора языка поздравления в текущем чате (только для владельца группы).</value>
   </data>
 </root>
