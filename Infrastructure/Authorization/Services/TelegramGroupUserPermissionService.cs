@@ -8,34 +8,45 @@ namespace TelegramBirthdayAlarmBot.Infrastructure.Authorization.Services;
 internal class TelegramGroupUserPermissionService
 {
     private readonly ITelegramBotClient _bot;
+    private readonly TelegramPermissionCache _cache;
 
     public TelegramGroupUserPermissionService(
-        ITelegramBotClient bot)
+        ITelegramBotClient bot,
+        TelegramPermissionCache cache)
     {
         _bot = bot;
+        _cache = cache;
     }
 
     public async Task<TelegramGroupUserPermissions> GetPermissionsAsync(
         long chatId,
         long userId)
     {
-        var member = await _bot.GetChatMember(
+        if (_cache.TryGet(
             chatId,
-            userId);
-
-        return member.Status switch
+            userId,
+            out var cached))
         {
-            ChatMemberStatus.Creator => new TelegramGroupUserPermissions(
-                IsOwner: true,
-                IsAdmin: true),
+            return cached;
+        }
 
-            ChatMemberStatus.Administrator => new TelegramGroupUserPermissions(
-                IsOwner: false,
-                IsAdmin: true),
 
-            _ => new TelegramGroupUserPermissions(
-                IsOwner: false,
-                IsAdmin: false)
-        };
+        var member =
+            await _bot.GetChatMember(
+                chatId,
+                userId);
+
+
+        var result = new TelegramGroupUserPermissions(
+            member.Status == ChatMemberStatus.Creator,
+            member.Status == ChatMemberStatus.Administrator);
+
+
+        _cache.Set(
+            chatId,
+            userId,
+            result);
+
+        return result;
     }
 }
