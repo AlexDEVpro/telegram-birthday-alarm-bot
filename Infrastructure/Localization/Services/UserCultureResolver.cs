@@ -3,37 +3,26 @@
 using Microsoft.Extensions.Options;
 
 using TelegramBirthdayAlarmBot.Configuration;
+using TelegramBirthdayAlarmBot.Constants;
 
 namespace TelegramBirthdayAlarmBot.Infrastructure.Localization.Services;
 
 internal class UserCultureResolver
 {
-    private readonly string _defaultCulture;
+    private readonly string _defaultLanguageCode;
 
     public UserCultureResolver(IOptions<BirthdayOptions> birthdayOptions)
     {
-        _defaultCulture = birthdayOptions.Value.DefaultCulture;
+        _defaultLanguageCode = birthdayOptions.Value.DefaultLanguageCode;
     }
 
-    public CultureInfo Resolve(string? telegramLangCode)
+    public CultureInfo Resolve(string? telegramLanguageCode)
     {
-        var fallback = _defaultCulture ?? "en-US";
+        var language =
+            string.IsNullOrWhiteSpace(telegramLanguageCode)
+                ? SupportedLanguages.Get(_defaultLanguageCode)
+                : SupportedLanguages.Get(telegramLanguageCode);
 
-        if (string.IsNullOrWhiteSpace(telegramLangCode))
-            return new CultureInfo(fallback);
-
-        try
-        {
-            return telegramLangCode switch
-            {
-                "en" => new CultureInfo("en-US"),
-                "ru" => new CultureInfo("ru-RU"),
-                _ => new CultureInfo(fallback)
-            };
-        }
-        catch
-        {
-            return new CultureInfo(fallback);
-        }
+        return new CultureInfo(language.Culture);
     }
 }
