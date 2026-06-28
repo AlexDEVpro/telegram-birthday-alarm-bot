@@ -18,8 +18,7 @@ internal class UserCultureResolver
 
     public CultureInfo Resolve(string? telegramLanguageCode)
     {
-        var language =
-            string.IsNullOrWhiteSpace(telegramLanguageCode)
+        var language = string.IsNullOrWhiteSpace(telegramLanguageCode)
                 ? SupportedLanguages.Get(_defaultLanguageCode)
                 : SupportedLanguages.Get(telegramLanguageCode);
 
