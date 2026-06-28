@@ -5,7 +5,7 @@ internal class TelegramOptions
     /// <summary>
     /// Telegram bot token.
     /// </summary>
-    public string BotToken { get; set; } = "";
+    public string? BotToken { get; set; }
 
     /// <summary>
     /// Telegram user IDs that have access to administrator commands
