@@ -35,6 +35,11 @@ class Program
         {
             var botToken = sp.GetRequiredService<IOptions<TelegramOptions>>().Value.BotToken;
 
+            if (string.IsNullOrWhiteSpace(botToken))
+            {
+                throw new InvalidOperationException("Bot token is not specified.");
+            }
+
             return new TelegramBotClient(botToken);
         });
 
