@@ -45,7 +45,6 @@ class Program
 
         builder.Services.AddSingleton<BotTimeProvider>();
         builder.Services.AddSingleton<StorageService>();
-        builder.Services.AddSingleton<BotService>();
         builder.Services.AddSingleton<PendingAddBirthdayStateService>();
         builder.Services.AddSingleton<PendingSetCongratulateLangStateService>();
         builder.Services.AddSingleton<TelegramGroupUserPermissionService>();
@@ -53,6 +52,7 @@ class Program
         builder.Services.AddSingleton<CultureContextManager>();
         builder.Services.AddSingleton<UserCultureResolver>();
 
+        builder.Services.AddHostedService<BotService>();
         builder.Services.AddHostedService<SetBotCommandsService>();
         builder.Services.AddHostedService<BirthdayService>();
 
@@ -64,9 +64,6 @@ class Program
         });
 
         var host = builder.Build();
-
-        var botService = host.Services.GetRequiredService<BotService>();
-        botService.Start();
 
         Console.WriteLine("Bot running...");
 
