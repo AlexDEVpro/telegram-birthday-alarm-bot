@@ -77,11 +77,31 @@ internal class BotService : BackgroundService
         Update update,
         CancellationToken ct)
     {
-        if (update.Type != UpdateType.Message || update.Message?.Text == null)
+        if (update.Type != UpdateType.Message || update.Message is not { } msg)
             return;
 
-        var chatId = update.Message.Chat.Id;
-        var from = update.Message.From;
+        var chatId = msg.Chat.Id;
+
+        // Migration.
+        // Group migrating to a supergroup or similar transformation.
+        if (msg.MigrateToChatId is long newChatId)
+        {
+            _storage.MigrateChatId(chatId, newChatId);
+
+            //return; In case of system message has been merged with the regular message let the logic to continue.
+        }
+        // This message belongs to the new supergroup and references the old group.
+        if (msg.MigrateFromChatId is long oldChatId)
+        {
+            _storage.MigrateChatId(oldChatId, chatId);
+
+            //return; In case of system message has been merged with the regular message let the logic to continue.
+        }
+
+        if (msg.Text == null)
+            return;
+
+        var from = msg.From;
         if (from == null)
         {
             await _bot.SendMessage(chatId,
@@ -91,7 +111,7 @@ internal class BotService : BackgroundService
             return;
         }
 
-        var text = update.Message.Text.Trim();
+        var text = msg.Text.Trim();
 
         // Add the user ID if missing and update the username if it has changed.
         if (!string.IsNullOrEmpty(from.Username))
