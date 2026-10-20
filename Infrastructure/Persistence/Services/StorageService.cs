@@ -212,6 +212,33 @@ internal class StorageService
         }
     }
 
+    public void MigrateChatId(long oldChatId, long newChatId)
+    {
+        if (oldChatId == newChatId)
+            return;
+
+        lock (_lock)
+        {
+            if (!_data.Chats.Remove(oldChatId, out var oldChat))
+                return;
+
+            if (!_data.Chats.TryGetValue(newChatId, out var newChat))
+            {
+                _data.Chats[newChatId] = oldChat;
+            }
+            else
+            {
+                // Merge birthdays without overwriting existing entries.
+                foreach (var (userKey, birthday) in oldChat.Users)
+                {
+                    newChat.Users.TryAdd(userKey, birthday);
+                }
+            }
+
+            Save();
+        }
+    }
+
     private (string? username, string displayName) ParseIdentity(string input)
     {
         input = input.Trim();
